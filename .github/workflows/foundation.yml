@@ -1,0 +1,57 @@
+name: Foundation
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Foundation tests
+        run: |
+          python -m pip install -r requirements-foundation.txt
+          python tools/dev.py test
+      - name: Lint and format
+        run: |
+          python -m ruff check tools tests
+          python -m ruff format --check tools tests
+      - name: Python syntax
+        run: python -m compileall -q tools tests
+      - name: Create local test credentials
+        run: python tools/dev.py init
+      - name: Compose validation
+        run: python tools/dev.py config
+      - name: Start local dependencies
+        run: python tools/dev.py up
+      - name: Storage readiness
+        run: python tools/dev.py storage-health
+      - name: Install backend
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Backend checks
+        run: |
+          python -m ruff check backend tools tests
+          python -m ruff format --check backend tools tests
+          python backend/manage.py check
+          python backend/manage.py migrate --noinput
+          python -m pytest -c backend/pytest.ini backend/tests
+          python backend/manage.py spectacular --file docs/api/openapi.yaml --validate --fail-on-warn
+      - name: Build and probe backend container
+        run: |
+          python tools/dev.py up-backend
+          curl --fail http://127.0.0.1:8000/api/v1/health/
+          curl --fail http://127.0.0.1:8000/api/v1/ready/
+      - name: Stop local dependencies
+        if: always()
+        run: python tools/dev.py down
+      - name: Dependency scanning tool
+        run: python -m pip install pip-audit
+      - name: Scan environment dependencies
+        run: |
+          python -m pip_audit --strict -r requirements-foundation.txt
+          python -m pip_audit --strict -r backend/requirements.txt
