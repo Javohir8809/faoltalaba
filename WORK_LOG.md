@@ -188,3 +188,26 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
   tasdiqladi. Credential qiymatlari outputga yozilmadi.
 - GitHub CI uchun bosh repo bo'sh ekanligi tasdiqlandi; main uchun kichik empty
   baseline va implementation uchun alohida milestone branch tayyorlanadi.
+- Restartdan keyin PostgreSQL contenttype count va Redisga yozilgan owned test
+  marker saqlangani tasdiqlandi; marker o'chirildi. Health/ready yana 200,
+  storage-health o'tdi.
+- Initial main baseline commit `5a9e0f9`, implementation commit `f0faa25` yaratildi.
+  `git push origin main` va `git push -u origin chore/repository-foundation` o'tdi.
+- Push oldidan staged fayllar lokal uchta credential qiymatiga solishtirilib
+  tekshirildi; sirlar va .local ma'lumotlari staged/committed fayllarda topilmadi.
+- Remote CI natijasi tekshirilmoqda. Main branchga implementation merge qilinmadi.
+- Draft PR #1 yaratildi va ushbu chatga biriktirildi:
+  https://github.com/Javohir8809/faoltalaba/pull/1
+- Push CI run: https://github.com/Javohir8809/faoltalaba/actions/runs/38620753027
+  — Foundation tests, lint/format, syntax va Compose config allaqachon o'tdi;
+  source MinIO build bosqichi davom etmoqda. Yakuniy natija hali tasdiqlanmadi.
+- GitHub Actions push run 38620753027, implementation commit f0faa25:
+  yakuniy `conclusion=success`. Foundation tests, lint/format, syntax, Compose,
+  storage readiness, backend tests/migrations/schema, Docker backend probes,
+  shutdown va dependency scanning bosqichlarining barchasi success.
+- PR uchun avtomatik run 38621213393 ham boshlandi; bu ayni implementationning
+  takroriy PR-event tekshiruvi. Push run muvaffaqiyati tasdiqlangan.
+- PHASE 0 dagi barcha checkboxlar bajarilgan tekshiruvlar asosida yopildi.
+  Repository foundation ExecPlan completed papkasiga ko'chiriladi.
+- PHASE 0 va PHASE 1 lokal hamda remote pipeline poydevori tayyor. Keyingi
+  milestone PHASE 2 — UUID identity, JWT rotation/revocation, RBAC va audit.

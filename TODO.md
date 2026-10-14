@@ -12,7 +12,7 @@
 - [x] Add root development README
 - [x] Add Docker Compose local development skeleton
 - [x] Add Makefile or task runner with common commands
-- [ ] Add CI skeleton — written; first CI run pending
+- [x] Add CI skeleton
 - [x] Ensure AGENTS.md applies from repo root
 
 Acceptance:

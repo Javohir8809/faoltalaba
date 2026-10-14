@@ -42,7 +42,7 @@ HEMIS/EKT/Smart Campus/FCM tarmoqqa ulanmaydi. MinIO faqat lokal storage.
 - [x] Foundation testlari va CI yaratish.
 - [x] README, WORK_LOG, CHANGELOG va TODO holatini yangilash.
 - [x] Mavjud muhitda unit, lint, format va syntax tekshiruvlarini bajarish.
-- [ ] Docker Compose config/start/health va birinchi CI run natijasini tasdiqlash.
+- [x] Docker Compose config/start/health va birinchi CI run natijasini tasdiqlash.
 
 ## Test plan
 Python unittest: env xavfsiz generatsiyasi va ustiga yozmaslik; runner buyruqlari va xatolari; papka/config mavjudligi. Python compile, Git whitespace va ignore tekshiruvi. Docker mavjud bo'lsa compose config/up/health/down; bo'lmasa cheklovni ochiq yozish. CI dependency scanning boshlang'ich pip-audit vositasi bilan.
@@ -51,8 +51,10 @@ Python unittest: env xavfsiz generatsiyasi va ustiga yozmaslik; runner buyruqlar
 Yaratilgan fayllarni Git diff orqali qaytarish. Lokal servislarni down bilan to'xtatish; volume avtomatik o'chirilmaydi. .env va ma'lumot volume'larini qo'lda saqlash.
 
 ## Completion notes
-7 unit/config testi o'tdi. Ruff check va format check o'tdi; compileall o'tdi.
-Docker yo'qligi tufayli runtime acceptance tekshirilmaydi, reja active holatda qoladi.
-Buyruqlar va batafsil cheklovlar WORK_LOG.md da. Foydalanuvchi davom etishga
-ruxsat bergach PHASE 1 mustaqil backend ishlari boshlandi; ushbu runtime
-acceptance ochiq saqlandi.
+9 foundation va 18 backend testi o'tdi. Ruff check/format, compileall, Docker
+Compose config/build/start/health/down/restart va volume persistence o'tdi.
+To'rtta servis healthy: PostgreSQL, Redis, MinIO va backend. MinIO rasmiy
+pinned source'dan non-root image sifatida build qilindi.
+GitHub Actions push run 38620753027 (f0faa25) to'liq success: tests, schema,
+Docker probes, shutdown va dependency scan. PHASE 0 acceptance tasdiqlandi.
+Draft PR #1 merge qilinmagan. Buyruqlar va cheklovlar WORK_LOG.md da.
