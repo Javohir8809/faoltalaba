@@ -33,13 +33,17 @@ class AuthThrottle(BaseThrottle):
             username = request.data.get("username", "") if isinstance(request.data, dict) else ""
             scopes.append(("account", str(username), settings.AUTH_ACCOUNT_LIMIT))
         try:
+            # Redis-visible limiter digests must never be JWT signing MACs.
+            limiter_key = hmac.new(
+                settings.JWT_SIGNING_KEY.encode(),
+                b"faol-talaba/auth-throttle/key/v1",
+                hashlib.sha256,
+            ).digest()
             with Redis.from_url(
                 settings.REDIS_URL, socket_connect_timeout=3, socket_timeout=3
             ) as client:
                 for kind, value, limit in scopes:
-                    hashed = hmac.new(
-                        settings.JWT_SIGNING_KEY.encode(), value.encode(), hashlib.sha256
-                    ).hexdigest()
+                    hashed = hmac.new(limiter_key, value.encode(), hashlib.sha256).hexdigest()
                     wait = client.eval(SCRIPT, 1, f"auth-limit:{kind}:{hashed}", 60, limit)
                     if wait:
                         raise Throttled(wait=max(1, wait))

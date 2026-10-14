@@ -266,3 +266,12 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - `check --deploy` qayta tekshirildi — 0 muammo. Docker rebuild va health/readiness
   healthy; auth response cache policy real HTTPda tasdiqlandi.
 - PR foundation branch ustiga stacked bo'ladi; main yoki oldingi PR avtomatik merge qilinmaydi.
+- Commit `699ba19` — UUID identity/JWT/RBAC/audit feature branchga push qilindi.
+- Staged fayllar to'rtta lokal secret qiymatiga solishtirib tekshirildi; sirlar
+  va .local/.env ma'lumotlari commitga kirmadi.
+- Draft PR #2 yaratildi va chatga biriktirildi:
+  https://github.com/Javohir8809/faoltalaba/pull/2
+- PR #1 foundation branchiga stacked; GitHub CI yakuniy tekshiruvi boshlandi.
+- Self-review: rate-limit HMAC uchun JWT key'dan domain-separated derived key
+  ishlatildi; Redisdagi digest JWT signing MAC sifatida qayta ishlatilmasligi
+  regression test bilan tekshiriladi. Backend suite 55 holatga kengaydi.

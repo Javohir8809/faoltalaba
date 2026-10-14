@@ -1,3 +1,5 @@
+import hashlib
+import hmac
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from threading import Barrier
@@ -388,6 +390,26 @@ def test_login_rate_limit_atomic_with_real_redis(student) -> None:
             for _ in range(3)
         ]
     assert [response.status_code for response in responses] == [401, 401, 429]
+
+
+def test_limiter_digest_cannot_be_reused_as_a_jwt_signature() -> None:
+    unsigned = "e30." + "A" * 200
+    with (
+        override_settings(AUTH_THROTTLE_ENABLED=True),
+        patch("accounts.throttling.Redis.from_url") as redis,
+    ):
+        limiter = redis.return_value.__enter__.return_value
+        limiter.eval.return_value = 0
+        response = APIClient().post(
+            "/api/v1/auth/login/", {"username": unsigned, "password": "x"}, format="json"
+        )
+    assert response.status_code == 400
+    account_key = limiter.eval.call_args_list[-1].args[2]
+    signing_mac = hmac.new(
+        settings.JWT_SIGNING_KEY.encode(), unsigned.encode(), hashlib.sha256
+    ).hexdigest()
+    assert account_key.startswith("auth-limit:account:")
+    assert account_key.rsplit(":", 1)[-1] != signing_mac
 
 
 @pytest.mark.django_db(transaction=True)
