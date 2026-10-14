@@ -4,6 +4,262 @@ info:
   version: 1.0.0
   description: Faol Talaba modular monolith API. UTC timestamps; JSON transport.
 paths:
+  /api/v1/admin/users/:
+    get:
+      operationId: admin_users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - admin
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+  /api/v1/admin/users/{id}/:
+    get:
+      operationId: admin_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - admin
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/admin/users/{id}/roles/:
+    get:
+      operationId: admin_users_roles_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - admin
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRoleGrantList'
+          description: ''
+    post:
+      operationId: admin_users_roles_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrantInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleGrant'
+          description: ''
+  /api/v1/admin/users/{id}/roles/{grant_id}/:
+    delete:
+      operationId: admin_users_roles_destroy
+      parameters:
+      - in: path
+        name: grant_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Access
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/admin/users/{id}/status/:
+    patch:
+      operationId: admin_users_status_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStatus'
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/auth/logout/:
+    post:
+      operationId: auth_logout_create
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Refresh'
+        required: true
+      responses:
+        '204':
+          description: No response body
+  /api/v1/auth/me/:
+    get:
+      operationId: auth_me_retrieve
+      tags:
+      - Auth
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/auth/refresh/:
+    post:
+      operationId: auth_refresh_create
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Refresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
   /api/v1/health/:
     get:
       operationId: health_retrieve
@@ -36,6 +292,39 @@ paths:
           description: ''
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorBody'
+      required:
+      - error
+    ErrorBody:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details: {}
+      required:
+      - code
+      - details
+      - message
+    GrantInput:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        scope_type:
+          $ref: '#/components/schemas/ScopeTypeEnum'
+        scope_id:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - role
+      - scope_type
     Health:
       type: object
       properties:
@@ -43,6 +332,146 @@ components:
           $ref: '#/components/schemas/StatusEnum'
       required:
       - status
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 1024
+      required:
+      - password
+      - username
+    PaginatedRoleGrantList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleGrant'
+    PaginatedUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedStatus:
+      type: object
+      properties:
+        is_active:
+          type: boolean
+    Refresh:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          maxLength: 4096
+      required:
+      - refresh
+    RoleEnum:
+      enum:
+      - SUPERADMIN
+      - YOUTH_ADMIN
+      - FACULTY_YOUTH_RESPONSIBLE
+      - DEPARTMENT_RESPONSIBLE
+      - CLUB_LEADER
+      - ACTIVITY_RESPONSIBLE
+      - TEACHER
+      - STUDENT
+      - SCIENCE_OFFICE
+      - SPORTS_OFFICE
+      - INTERNATIONAL_OFFICE
+      - LIBRARY_OPERATOR
+      - ANALYTICS_VIEWER
+      type: string
+      description: |-
+        * `SUPERADMIN` - Superadmin
+        * `YOUTH_ADMIN` - Youth Admin
+        * `FACULTY_YOUTH_RESPONSIBLE` - Faculty Youth Responsible
+        * `DEPARTMENT_RESPONSIBLE` - Department Responsible
+        * `CLUB_LEADER` - Club Leader
+        * `ACTIVITY_RESPONSIBLE` - Activity Responsible
+        * `TEACHER` - Teacher
+        * `STUDENT` - Student
+        * `SCIENCE_OFFICE` - Science Office
+        * `SPORTS_OFFICE` - Sports Office
+        * `INTERNATIONAL_OFFICE` - International Office
+        * `LIBRARY_OPERATOR` - Library Operator
+        * `ANALYTICS_VIEWER` - Analytics Viewer
+    RoleGrant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        scope_type:
+          allOf:
+          - $ref: '#/components/schemas/ScopeTypeEnum'
+          readOnly: true
+        scope_id:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+      required:
+      - id
+      - role
+      - scope_id
+      - scope_type
+    ScopeTypeEnum:
+      enum:
+      - GLOBAL
+      - FACULTY
+      - DEPARTMENT
+      - ACTIVITY
+      type: string
+      description: |-
+        * `GLOBAL` - Global
+        * `FACULTY` - Faculty
+        * `DEPARTMENT` - Department
+        * `ACTIVITY` - Activity
     StatusEnum:
       enum:
       - ok
@@ -51,3 +480,41 @@ components:
       description: |-
         * `ok` - ok
         * `unavailable` - unavailable
+    TokenPair:
+      type: object
+      properties:
+        access:
+          type: string
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleGrant'
+          readOnly: true
+      required:
+      - id
+      - is_active
+      - roles
+      - username
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

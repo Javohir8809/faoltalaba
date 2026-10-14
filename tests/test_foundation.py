@@ -39,6 +39,8 @@ class FoundationTests(unittest.TestCase):
             self.assertTrue(all(len(value) >= 32 for value in passwords))
             self.assertNotEqual(*passwords)
             self.assertGreaterEqual(len(values["DJANGO_SECRET_KEY"]), 50)
+            self.assertGreaterEqual(len(values["JWT_SIGNING_KEY"]), 50)
+            self.assertNotEqual(values["JWT_SIGNING_KEY"], values["DJANGO_SECRET_KEY"])
             self.assertFalse(initialize_env(root))
             self.assertEqual((root / ".env").read_text(), content)
 

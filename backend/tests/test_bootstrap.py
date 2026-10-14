@@ -5,6 +5,7 @@ import logging
 from unittest.mock import patch
 
 import pytest
+from accounts.authentication import JWTAuthentication
 from config.errors import api_exception_handler
 from config.health import dependencies_ready
 from config.logging import JsonFormatter
@@ -54,9 +55,9 @@ def test_redis_outage_does_not_expose_credentials() -> None:
 
 def test_default_permissions_deny_anonymous_requests() -> None:
     assert api_settings.DEFAULT_PERMISSION_CLASSES == [IsAuthenticated]
-    assert api_settings.DEFAULT_AUTHENTICATION_CLASSES == []
+    assert api_settings.DEFAULT_AUTHENTICATION_CLASSES == [JWTAuthentication]
     response = APIView.as_view()(APIRequestFactory().get("/private/"))
-    assert response.status_code == 403
+    assert response.status_code == 401
 
 
 def test_missing_route_returns_json_without_query_or_identity() -> None:

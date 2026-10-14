@@ -45,21 +45,21 @@ Acceptance:
 
 ## PHASE 2 — Identity, users and RBAC
 
-- [ ] Create UUID-based User model
-- [ ] Create StudentProfile
-- [ ] Create StaffProfile
-- [ ] Create external identity mapping model
-- [ ] Implement roles
-- [ ] Implement permission helpers/policies
-- [ ] Implement JWT auth
-- [ ] Implement refresh token rotation/revocation
-- [ ] Implement audit base model/service
-- [ ] Add permission test matrix
+- [x] Create UUID-based User model
+- [x] Create StudentProfile
+- [x] Create StaffProfile
+- [x] Create external identity mapping model
+- [x] Implement roles
+- [x] Implement permission helpers/policies
+- [x] Implement JWT auth
+- [x] Implement refresh token rotation/revocation
+- [x] Implement audit base model/service
+- [x] Add permission test matrix
 
 Acceptance:
-- [ ] student cannot access admin endpoints
-- [ ] faculty responsible cannot access another faculty unless granted
-- [ ] privileged mutations create audit log
+- [x] student cannot access admin endpoints
+- [x] faculty responsible cannot access another faculty unless granted
+- [x] privileged mutations create audit log
 
 ---
 
