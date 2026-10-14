@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Faol Talaba API
+  version: 1.0.0
+  description: Faol Talaba modular monolith API. UTC timestamps; JSON transport.
+paths:
+  /api/v1/health/:
+    get:
+      operationId: health_retrieve
+      tags:
+      - Health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+  /api/v1/ready/:
+    get:
+      operationId: ready_retrieve
+      tags:
+      - Health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+components:
+  schemas:
+    Health:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+      required:
+      - status
+    StatusEnum:
+      enum:
+      - ok
+      - unavailable
+      type: string
+      description: |-
+        * `ok` - ok
+        * `unavailable` - unavailable
