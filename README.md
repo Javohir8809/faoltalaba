@@ -68,7 +68,9 @@ python tools/dev.py up-backend
 ```
 
 Backend http://127.0.0.1:8000/api/v1/health/ da javob beradi.
-Ilova hali auth yoki biznes oqimlarini taqdim etmaydi.
+UUID foydalanuvchilar, JWT login/refresh/logout va scoped RBAC API mavjud.
+Account bootstrap va auth shartnomasi `docs/authentication.md` da; faoliyat
+biznes oqimlari keyingi bosqichlarda qo'shiladi.
 
 ## Ishlab chiqish bosqichlari
 

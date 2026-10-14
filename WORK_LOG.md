@@ -275,3 +275,7 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - Self-review: rate-limit HMAC uchun JWT key'dan domain-separated derived key
   ishlatildi; Redisdagi digest JWT signing MAC sifatida qayta ishlatilmasligi
   regression test bilan tekshiriladi. Backend suite 55 holatga kengaydi.
+- HMAC separation, login/refresh/logout, real Redis limit va invalid JSON testlari:
+  4 passed. Fix commit `a1fad8d` GitHubga yuborildi; Docker image qayta yig'ildi.
+- Root README auth imkoniyatlari bilan yangilandi. GitHubda shu joriy code head
+  CI tekshiruvi davom etmoqda; eskirgan oldingi head runlari bekor qilinadi.
