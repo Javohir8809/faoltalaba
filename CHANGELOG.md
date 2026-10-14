@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unreleased
+- PHASE 2 UUID user, academic profiles and external identity mappings with initial migrations.
+- JWT login, rotating refresh sessions, replay/logout/password-change revocation and atomic Redis auth throttling.
+- Explicit scoped RBAC, filtered user administration and transactionally audited role/status changes.
+- PostgreSQL guards for immutable user UUID and append-only audit history; last-active-superadmin protection.
+- Auth API contracts, provisioning guide and permission/privacy/concurrency integration tests.
 - PHASE 1 Django 6.1.2 + DRF backend with PostgreSQL 18 and Redis/Celery configuration.
 - Public read-only liveness/readiness probes, consistent JSON errors and privacy-safe structured logs.
 - Local/staging/production settings, HTTPS security baseline, validated OpenAPI contract.

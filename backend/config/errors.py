@@ -16,6 +16,8 @@ def api_exception_handler(exc: Exception, context: dict[str, Any]) -> Response:
             status=500,
         )
     code = str(getattr(exc, "default_code", "request_error")).upper()
+    if hasattr(exc, "get_codes") and isinstance(exc.get_codes(), str):
+        code = exc.get_codes().upper()
     details = exc.get_codes() if isinstance(exc, ValidationError) else {}
     response.data = {
         "error": {"code": code, "message": "So'rovni bajarib bo'lmadi.", "details": details}

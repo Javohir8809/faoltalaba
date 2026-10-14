@@ -16,13 +16,35 @@ SECRET_KEY = required("DJANGO_SECRET_KEY")
 DEBUG = False
 ALLOWED_HOSTS = csv_values("DJANGO_ALLOWED_HOSTS")
 INSTALLED_APPS = [
+    "django.contrib.auth",
     "django.contrib.contenttypes",
+    "organizations",
+    "accounts",
+    "students",
+    "staff",
+    "audit",
     "rest_framework",
     "drf_spectacular",
     "django_filters",
     "corsheaders",
 ]
-# Auth/admin wait for the UUID user model in PHASE 2, before the first auth migration.
+AUTH_USER_MODEL = "accounts.User"
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 12},
+    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+JWT_SIGNING_KEY = required("JWT_SIGNING_KEY")
+JWT_ISSUER = "faol-talaba"
+JWT_AUDIENCE = "faol-talaba-clients"
+JWT_ACCESS_SECONDS = 300
+JWT_REFRESH_SECONDS = 604800
+AUTH_THROTTLE_ENABLED = True
+AUTH_IP_LIMIT = 100
+AUTH_ACCOUNT_LIMIT = 5
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -77,8 +99,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "same-origin"
 X_FRAME_OPTIONS = "DENY"
 REST_FRAMEWORK = {
+    "NUM_PROXIES": 0,  # Ignore untrusted forwarded-IP headers until proxy trust is configured.
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
-    "DEFAULT_AUTHENTICATION_CLASSES": [],  # JWT is implemented in PHASE 2.
+    "DEFAULT_AUTHENTICATION_CLASSES": ["accounts.authentication.JWTAuthentication"],
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],

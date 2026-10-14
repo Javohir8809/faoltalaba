@@ -8,6 +8,7 @@ validate_deployment(
     ALLOWED_HOSTS,  # noqa: F405
     CORS_ALLOWED_ORIGINS + CSRF_TRUSTED_ORIGINS,  # noqa: F405
 )
+validate_deployment(JWT_SIGNING_KEY, ALLOWED_HOSTS, [])  # noqa: F405
 REDIS_URL = required("REDIS_URL")
 CELERY_BROKER_URL = required("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = required("CELERY_RESULT_BACKEND")

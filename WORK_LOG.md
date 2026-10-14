@@ -211,3 +211,71 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
   Repository foundation ExecPlan completed papkasiga ko'chiriladi.
 - PHASE 0 va PHASE 1 lokal hamda remote pipeline poydevori tayyor. Keyingi
   milestone PHASE 2 — UUID identity, JWT rotation/revocation, RBAC va audit.
+- Verification hujjatlari commit `e3be1ce` bilan branchga push qilindi.
+- Shu latest commit uchun GitHub Actions push run 38621639397 ham to'liq success:
+  https://github.com/Javohir8809/faoltalaba/actions/runs/38621639397
+- Yakuniy CI natijasi ushbu jurnalga oxirgi pushdan keyin lokal qayd qilindi;
+  bu yozuv keyingi milestone commitiga qo'shiladi. Kod va verification docs GitHubda.
+- Latest PR run 38621648087 ham completed/success bo'ldi. PR tavsifidagi
+  validation summary latest commit CI success bilan yangilandi; PR draft holatda.
+- Yakuniy `git diff --check` o'tdi. Faqat ushbu jonli jurnalning oxirgi natija
+  yozuvlari lokal o'zgartirilgan; implementation branch GitHub bilan mos.
+
+## 2026-10-15 — PHASE 2: Identity, users and RBAC
+
+- Foydalanuvchi keyingi bosqichni boshlashga ruxsat berdi.
+- `feat/identity-rbac` branch yaratildi; mavjud foundation branch ustiga quriladi.
+- Backend, kontrakt hujjatlari va TODO tekshirildi; identity-rbac ExecPlan yozildi.
+- PyJWT 2.15.1 o'rnatildi. Django custom user first migration va PyJWT required
+  claims/issuer/audience qoidalari rasmiy dokumentatsiyadan tekshirildi.
+- Login/JWT cookie orqali emas, Bearer JSON orqali; HEMIS integratsiyasigacha
+  lokal username/password ishlatiladi. Role va scope matritsasi ExecPlanda belgilandi.
+- accounts, organizations, students, staff, audit modullari va initial migratsiyalar yaratildi.
+- UUID user uchun DB mutation trigger, audit uchun UPDATE/DELETE/TRUNCATE guardlar qo'shildi.
+- JWT sessions, hashed refresh, row-lock rotation/replay revocation, logout va password
+  change revocation; scope-filtered user API va audited access administration yozildi.
+- Login/refresh/logout Redis Lua atomic rate limit bilan; nosoz Redis holatida fail closed.
+  Untrusted forwarded IP headerlar hisobga olinmaydi. Signing key lokal .envga
+  boshqa credentiallarni saqlagan holda qo'shildi; qiymati outputga chiqarilmadi.
+- Birinchi 49 testdan 46 tasi o'tdi, 3 tasi public auth 403/401 farqida xato berdi.
+  Bearer authenticate header qo'shilib sabab tuzatildi. OpenAPI queryset warnings ham
+  schema-only empty queryset orqali tuzatildi; runtime permission bypass qo'shilmadi.
+- Concurrent login/password-change race uchun verified hash lock ostida qayta tekshirildi.
+- Test-only disposable DB fixture Django flush uchun audit TRUNCATE guardini teardown'da
+  o'chiradi; `test_` DB name guard majburiy, runtime/production istisnosi yo'q.
+- Auth docs va interaktiv createsuperuser yo'riqnomasi qo'shildi; tekshiruvlar davom etmoqda.
+- Parol minimum 12/common/numeric validation managerda majburiy qilindi;
+  password hash o'zgarmagan update'larda noto'g'ri password-change audit yozilmaydi.
+- Auth response'lariga Cache-Control=no-store va noto'g'ri JSON shape uchun 400 qo'shildi.
+- Yakuniy `pytest -c backend/pytest.ini backend/tests --tb=short`: 53 passed.
+  `python tools/dev.py test`: 9 passed; jami 62 test.
+- `manage.py migrate --noinput` — barcha yangi accounts/org/profile/audit va
+  built-in auth migratsiyalari mavjud lokal DBga o'tdi; oldingi migratsiyalar o'zgartirilmadi.
+- `makemigrations --check --dry-run` — No changes detected.
+- `ruff check` va `ruff format --check` — o'tdi; compileall o'tdi.
+- `spectacular --validate --fail-on-warn` — schema warningsiz generatsiya qilindi;
+  docs/api/openapi.yaml yangilandi, auth error contractlari qo'shildi.
+- Sample nonlocal environment bilan `check --deploy --fail-level WARNING` — 0 issues.
+- `pip_audit --strict` pinned backend/foundation dependencies uchun zaiflik topmadi.
+- `tools/dev.py up-backend` — yangilangan Docker backend build/start healthy.
+- HTTP health/ready 200; auth/me 401 NOT_AUTHENTICATED; invalid login 401/no-store.
+- TODO faqat passing testlar bilan yopildi; remote CI tekshiruvi hali davomiy ish.
+- Qo'shimcha parallel superadmin deactivation testi va FK dependantsiz user UUID
+  SQL mutation testi o'tdi (2 passed). Joriy suite 54 backend testni yig'adi;
+  oldingi to'liq 53 test va yangi holat alohida tekshirildi. CI to'liq joriy suite'ni bajaradi.
+- `check --deploy` qayta tekshirildi — 0 muammo. Docker rebuild va health/readiness
+  healthy; auth response cache policy real HTTPda tasdiqlandi.
+- PR foundation branch ustiga stacked bo'ladi; main yoki oldingi PR avtomatik merge qilinmaydi.
+- Commit `699ba19` — UUID identity/JWT/RBAC/audit feature branchga push qilindi.
+- Staged fayllar to'rtta lokal secret qiymatiga solishtirib tekshirildi; sirlar
+  va .local/.env ma'lumotlari commitga kirmadi.
+- Draft PR #2 yaratildi va chatga biriktirildi:
+  https://github.com/Javohir8809/faoltalaba/pull/2
+- PR #1 foundation branchiga stacked; GitHub CI yakuniy tekshiruvi boshlandi.
+- Self-review: rate-limit HMAC uchun JWT key'dan domain-separated derived key
+  ishlatildi; Redisdagi digest JWT signing MAC sifatida qayta ishlatilmasligi
+  regression test bilan tekshiriladi. Backend suite 55 holatga kengaydi.
+- HMAC separation, login/refresh/logout, real Redis limit va invalid JSON testlari:
+  4 passed. Fix commit `a1fad8d` GitHubga yuborildi; Docker image qayta yig'ildi.
+- Root README auth imkoniyatlari bilan yangilandi. GitHubda shu joriy code head
+  CI tekshiruvi davom etmoqda; eskirgan oldingi head runlari bekor qilinadi.

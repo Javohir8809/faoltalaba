@@ -42,7 +42,7 @@ def find_docker() -> str | None:
 def initialize_env(root: Path) -> bool:
     """Create local credentials exclusively, preserving any existing env file."""
     content = (root / ".env.example").read_text(encoding="utf-8")
-    for key in ("POSTGRES_PASSWORD", "MINIO_ROOT_PASSWORD", "DJANGO_SECRET_KEY"):
+    for key in ("POSTGRES_PASSWORD", "MINIO_ROOT_PASSWORD", "DJANGO_SECRET_KEY", "JWT_SIGNING_KEY"):
         content = content.replace(f"{key}=\n", f"{key}={secrets.token_urlsafe(48)}\n")
     try:
         with (root / ".env").open("x", encoding="utf-8", newline="\n") as env:

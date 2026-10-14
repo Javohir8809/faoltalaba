@@ -51,7 +51,10 @@ SECRET_KEY, explicit hosts, PostgreSQL credentials va Redis/Celery URLlar muhitd
 berilishi shart; DB TLS, HTTPS redirect, secure cookies va HSTS yoqiladi.
 Proxy header ishonchi deployment chegarasi aniqlanmaguncha yoqilmaydi.
 
-Auth/admin PHASE 2 da UUID user bilan yaratiladi; default API permission deny.
-Hozir domain modeli va privilegiya bilan yozish endpointlari yo'q.
+PHASE 2 UUID user, JWT login/refresh/logout va scoped RBAC mavjud; default API permission deny.
+Account bootstrap uchun `python backend/manage.py createsuperuser` interaktiv buyrug'i.
+`JWT_SIGNING_KEY` lokal .envda alohida tasodifiy qiymat bo'lishi kerak; qiymatni
+log yoki Gitga yozmang. Auth contract va rol doiralari `docs/authentication.md` da.
+Audit yozuvlari DB darajasida o'zgartirish/o'chirishdan himoyalangan.
 Konfiguratsiya manbalari: [Django PostgreSQL](https://docs.djangoproject.com/en/6.0/ref/databases/),
 [DRF release notes](https://www.django-rest-framework.org/community/release-notes/).
