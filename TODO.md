@@ -65,26 +65,30 @@ Acceptance:
 
 ## PHASE 3 — HEMIS integration foundation
 
-- [ ] Define HEMIS client interface
-- [ ] Implement timeout/retry rules
-- [ ] Create mock HEMIS adapter
-- [ ] Create sync models/state
-- [ ] Sync faculties
-- [ ] Sync departments
-- [ ] Sync groups
-- [ ] Sync students
-- [ ] Sync staff/teachers
-- [ ] Sync subjects
-- [ ] Add schedule adapter interface
-- [ ] Add Celery sync jobs
-- [ ] Add admin sync status page/API
-- [ ] Add failure logging
+- [x] Define HEMIS client interface
+- [x] Implement timeout/retry rules
+- [x] Create mock HEMIS adapter
+- [x] Create sync models/state
+- [x] Sync faculties
+- [x] Sync departments
+- [x] Sync groups
+- [x] Sync students
+- [x] Sync staff/teachers
+- [x] Sync subjects
+- [x] Add schedule adapter interface
+- [x] Add Celery sync jobs
+- [x] Add admin sync status page/API
+- [x] Add failure logging
 
 Acceptance:
-- [ ] app works with mock HEMIS
-- [ ] sync is idempotent
-- [ ] deleted/changed external records have defined handling
-- [ ] user-facing API does not depend on live HEMIS availability
+- [x] app works with mock HEMIS
+- [x] sync is idempotent
+- [x] deleted/changed external records have defined handling
+- [x] user-facing API does not depend on live HEMIS availability
+
+Foundation mock adapter bilan tekshirildi. Haqiqiy HEMIS wire adapteri uchun
+API contract va ishlaydigan endpointlar hali kerak; URL/token sozlash mavjud.
+Tafsilotlar: `docs/hemis-integration.md`.
 
 ---
 

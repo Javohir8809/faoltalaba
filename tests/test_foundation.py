@@ -14,9 +14,11 @@ class FoundationTests(unittest.TestCase):
     def test_compose_services_are_local_and_credentials_required(self) -> None:
         config = yaml.safe_load((ROOT / "infra/compose.yaml").read_text())
         services = config["services"]
-        self.assertEqual(set(services), {"postgres", "redis", "minio", "backend"})
+        self.assertEqual(set(services), {"postgres", "redis", "minio", "backend", "celery-worker"})
         for service in services.values():
-            self.assertTrue(all(port.startswith("127.0.0.1:") for port in service["ports"]))
+            self.assertTrue(all(port.startswith("127.0.0.1:") for port in service.get("ports", [])))
+        self.assertNotIn("ports", services["celery-worker"])
+        self.assertEqual(services["celery-worker"]["profiles"], ["worker"])
         self.assertEqual(services["postgres"]["image"], "postgres:18")
         for name, key in (("postgres", "POSTGRES_PASSWORD"), ("minio", "MINIO_ROOT_PASSWORD")):
             self.assertIn(":?", services[name]["environment"][key])

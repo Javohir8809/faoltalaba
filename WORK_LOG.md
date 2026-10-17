@@ -279,3 +279,31 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
   4 passed. Fix commit `a1fad8d` GitHubga yuborildi; Docker image qayta yig'ildi.
 - Root README auth imkoniyatlari bilan yangilandi. GitHubda shu joriy code head
   CI tekshiruvi davom etmoqda; eskirgan oldingi head runlari bekor qilinadi.
+- Oldingi 699ba19 push/PR runlari ham success bo'ldi. a1fad8d superseded runlari
+  38627754060/38627748048 bekor qilindi; joriy head runlari saqlandi.
+- Yakuniy commit `4f717d4` uchun push run 38627915792 va PR run 38627926034:
+  ikkalasi ham completed/success. Joriy to'liq 55 backend + 9 foundation testi,
+  lint/format, migrations, OpenAPI, Docker probes va dependency scan CI orqali o'tdi.
+- CI dalillari: https://github.com/Javohir8809/faoltalaba/actions/runs/38627915792
+  va https://github.com/Javohir8809/faoltalaba/actions/runs/38627926034
+- PHASE 2 ExecPlan completed papkasiga ko'chirildi. Yakuniy natija yozuvlari
+  oxirgi pushdan keyin lokal jurnalga kiritildi va keyingi milestone commitiga qo'shiladi.
+- Keyingi bosqich PHASE 3: timeout/idempotent background sync, mock HEMIS adapter
+  va external sync state; real endpointlar contract kelmaguncha taxmin qilinmaydi.
+
+## 2026-10-17 — PHASE 3 boshlandi
+- Jurnal, loyiha talablari va mavjud kod qayta o'qildi; oldingi hujjat o'zgarishlari saqlandi.
+- codex/hemis-integration-foundation branch va active/hemis-foundation.md reja yaratildi.
+- Haqiqiy HEMIS contract yo'q: mock/normalized adapter asosida ishlanadi; lokal auth va rollar sync orqali o'zgartirilmaydi.
+- HEMIS URL/token/timeout/retry uchun .env va .env.example kalitlari qo'shildi; mavjud sirlar saqlandi.
+- Foydalanuvchi bergan student.samdukf.uz/rest manzili lokal sozlamaga kiritildi. Ochiq tekshiruv HTTP 404 berdi; real wire adapter hali contract kutadi va disabled.
+- Academic modellar, additive migratsiyalar, mock adapter, xavfsiz GET transport, page transaction/cursor, audit, Celery va protected sync-status API yozildi.
+- Dastlabki HEMIS suite: 33 passed, Windowsda juda uzun parametr nomi sabab 2 fixture error; parametrga qisqa ID berildi va qayta tekshirilmoqda.
+
+- Yakuniy lokal suite: 93 backend testi + 9 foundation testi = 102 passed. HEMIS uchun 38 yangi test, shu jumladan haqiqiy Redis/Celery worker va parallel sync guard.
+- migrate: 5 yangi additive migration o'tdi; makemigrations --check --dry-run: No changes detected.
+- ruff check/format, compileall, pip check, OpenAPI --validate --fail-on-warn va sample production check --deploy --fail-level WARNING o'tdi.
+- OpenAPI eski health StatusEnum nomi saqlandi; HEMIS statusiga alohida enum berildi. CIga migration/schema drift tekshiruvi qo'shildi.
+- Docker backend qayta build qilindi: health/ready 200, himoyalangan sync-status tokensiz 401. Docker Celery worker online, sync_hemis task ro'yxatda.
+- docs/hemis-integration.md, README/CHANGELOG/TODO yangilandi; PHASE 3 mock foundation tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga o'tdi.
+- Haqiqiy integratsiya cheklovi ochiq yozildi: URL/token sozlanadi, lekin ishlaydigan vendor API contract yo'q; live adapter disabled, productionga ulanilmadi.

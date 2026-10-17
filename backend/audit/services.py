@@ -6,7 +6,7 @@ from .models import AuditEvent
 def record_event(
     *, actor_id: UUID | None, action: str, object_id: UUID, metadata: dict | None = None
 ) -> AuditEvent:
-    allowed = {"role", "scope_type", "scope_id", "is_active"}
+    allowed = {"role", "scope_type", "scope_id", "is_active", "resource", "count"}
     values = metadata or {}
     if not values.keys() <= allowed:
         raise ValueError("Audit metadata is not allowlisted")

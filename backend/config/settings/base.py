@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "students",
     "staff",
     "audit",
+    "integrations.hemis.apps.HemisConfig",
     "rest_framework",
     "drf_spectacular",
     "django_filters",
@@ -86,6 +87,13 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TIMEZONE = "UTC"
 CELERY_BROKER_CONNECTION_TIMEOUT = 5
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 3600}
+HEMIS_ADAPTER = os.environ.get("HEMIS_ADAPTER", "disabled")
+HEMIS_ALLOW_MOCK = False
+HEMIS_BASE_URL = os.environ.get("HEMIS_BASE_URL", "")
+HEMIS_API_TOKEN = os.environ.get("HEMIS_API_TOKEN", "")
+HEMIS_HTTP_TIMEOUT = float(os.environ.get("HEMIS_HTTP_TIMEOUT", "5"))
+HEMIS_HTTP_ATTEMPTS = int(os.environ.get("HEMIS_HTTP_ATTEMPTS", "3"))
 LANGUAGE_CODE = "uz"
 TIME_ZONE = "UTC"
 USE_I18N = True
@@ -118,6 +126,14 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "OAS_VERSION": "3.0.3",
+    "ENUM_NAME_OVERRIDES": {
+        "StatusEnum": ["ok", "unavailable"],
+        "HemisSyncStatusEnum": [
+            ("RUNNING", "Running"),
+            ("SUCCEEDED", "Succeeded"),
+            ("FAILED", "Failed"),
+        ],
+    },
 }
 LOGGING = {
     "version": 1,

@@ -128,7 +128,7 @@ class ExternalIdentity(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="external_identities")
     source = models.CharField(max_length=16, choices=[("HEMIS", "HEMIS"), ("EKT", "EKT")])
-    external_id = models.CharField(max_length=128)
+    external_id = models.CharField(max_length=160)
 
     class Meta:
         constraints = [

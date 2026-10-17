@@ -1,0 +1,8 @@
+{
+  "faculties": [{"id": "demo-f1", "name": "Namuna fakulteti"}],
+  "departments": [{"id": "demo-d1", "name": "Namuna kafedrasi", "faculty_id": "demo-f1"}],
+  "groups": [{"id": "demo-g1", "name": "NAMUNA-101", "faculty_id": "demo-f1"}],
+  "subjects": [{"id": "demo-sub1", "name": "Namuna fani"}],
+  "students": [{"id": "demo-s1", "name": "Namuna talaba", "faculty_id": "demo-f1", "department_id": "demo-d1", "group_id": "demo-g1"}],
+  "staff": [{"id": "demo-t1", "name": "Namuna o'qituvchi", "faculty_id": "demo-f1", "department_id": "demo-d1"}]
+}
