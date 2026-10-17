@@ -61,7 +61,10 @@ Activity-scoped ACTIVITY_RESPONSIBLE and CLUB_LEADER can read their assignment's
 activity, edit its draft/rejected content, submit it for review and perform permitted
 operational transitions. They cannot publish/reject/suspend/archive or create new
 activities merely through that assignment. CLUB_LEADER requires type CLUB.
-Role delegation remains SUPERADMIN-only through the existing access API:
+General role delegation remains SUPERADMIN-only through the existing access API.
+PHASE 5 additionally permits institutional reviewers to delegate only CLUB_LEADER
+within their own club through the dedicated club endpoint (`docs/clubs.md`).
+The existing general access API accepts:
 
 ```json
 {

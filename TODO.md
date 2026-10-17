@@ -117,25 +117,25 @@ Acceptance:
 
 ## PHASE 5 — Clubs
 
-- [ ] Create Club domain model
-- [ ] Create ClubMembership
-- [ ] Create join policy: auto/manual
-- [ ] Create ClubSession
-- [ ] Implement club create/edit/publish
-- [ ] Implement leader assignment
-- [ ] Implement student join/apply
-- [ ] Implement approve/reject
-- [ ] Implement member list permissions
-- [ ] Implement club schedule
-- [ ] Implement session open/close
-- [ ] Implement dormancy indicators
-- [ ] Add club analytics
+- [x] Create Club domain model
+- [x] Create ClubMembership
+- [x] Create join policy: auto/manual
+- [x] Create ClubSession
+- [x] Implement club create/edit/publish
+- [x] Implement leader assignment
+- [x] Implement student join/apply
+- [x] Implement approve/reject
+- [x] Implement member list permissions
+- [x] Implement club schedule
+- [x] Implement session open/close
+- [x] Implement dormancy indicators
+- [x] Add club analytics
 
 Acceptance E2E:
-- [ ] student joins club
-- [ ] leader approves when required
-- [ ] leader opens session
-- [ ] member is eligible for attendance
+- [x] student joins club
+- [x] leader approves when required
+- [x] leader opens session
+- [x] member is eligible for attendance
 
 ---
 

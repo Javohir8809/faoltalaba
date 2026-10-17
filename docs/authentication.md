@@ -48,7 +48,9 @@ must be configured separately. Tokens use JSON/Bearer transport, not auth cookie
 - CLUB_LEADER and ACTIVITY_RESPONSIBLE: helpers require the matching activity UUID.
   PHASE 4 validates existing, non-archived Activity scopes and creates an
   ActivityRole link in the same transaction. CLUB_LEADER requires type CLUB.
-  Only SUPERADMIN may delegate roles; publication requires institutional scope.
+  General role delegation is SUPERADMIN-only; publication requires institutional scope.
+  PHASE 5 adds a narrow club endpoint for institutional reviewers to assign/revoke
+  only CLUB_LEADER in their own club. It grants no general access administration.
 - TEACHER, STUDENT, SCIENCE_OFFICE, SPORTS_OFFICE, INTERNATIONAL_OFFICE,
   LIBRARY_OPERATOR and ANALYTICS_VIEWER: authenticated own identity only in this
   phase; their domain-specific capabilities arrive with those modules.

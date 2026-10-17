@@ -20,6 +20,7 @@ keyingi bosqichlarda ishga tushiriladi.
 HEMIS background sync, mock va URL/token sozlamalari: `docs/hemis-integration.md`.
 Haqiqiy HEMIS adapteri tasdiqlangan API contract kelguncha o'chiq.
 Activity core va scoped faoliyat API: `docs/activities.md`.
+To'garak, a'zolik, jadval va sessiyalar: `docs/clubs.md`.
 
 Repo nusxasi olingandan so'ng ildiz papkada Windows va Linux uchun bir xil buyruqlar:
 

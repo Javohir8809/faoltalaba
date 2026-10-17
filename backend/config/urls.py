@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from .health import HealthView, ReadinessView
 
 urlpatterns = [
+    path("api/v1/clubs/", include("clubs.api")),
     path("api/v1/activities/", include("activities.api")),
     path("api/v1/admin/integrations/hemis/", include("integrations.hemis.api")),
     path("api/v1/", include("accounts.urls")),
