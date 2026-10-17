@@ -307,3 +307,24 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - Docker backend qayta build qilindi: health/ready 200, himoyalangan sync-status tokensiz 401. Docker Celery worker online, sync_hemis task ro'yxatda.
 - docs/hemis-integration.md, README/CHANGELOG/TODO yangilandi; PHASE 3 mock foundation tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga o'tdi.
 - Haqiqiy integratsiya cheklovi ochiq yozildi: URL/token sozlanadi, lekin ishlaydigan vendor API contract yo'q; live adapter disabled, productionga ulanilmadi.
+- Commit fc08c94 codex/hemis-integration-foundation branchga push qilindi. Draft PR #3 yaratildi va chatga biriktirildi: https://github.com/Javohir8809/faoltalaba/pull/3 . Base feat/identity-rbac (PR #2); merge qilinmadi.
+- Staged diff lokal secretlar va .env/.local/.venv bo'yicha tekshirildi, sirlar commitga kirmadi. Remote CI natijalari kutilmoqda.
+- Oxirgi GitHub tekshiruvida fc08c94 uchun push run 39050400440 va PR run 39050420433 in_progress; remote CI muvaffaqiyatli yakunlandi deb belgilanmadi. Lokal 102 test natijasi tasdiqlangan.
+- CI havolalari: https://github.com/Javohir8809/faoltalaba/actions/runs/39050400440 va https://github.com/Javohir8809/faoltalaba/actions/runs/39050420433 . Ushbu yakuniy jurnal qaydlari commitdan keyin lokal faylga kiritildi.
+
+## 2026-10-17 — PHASE 4 boshlandi
+- PHASE 3 fc08c94 push CI 39050400440 va PR CI 39050420433 completed/success ekanligi GitHubdan tasdiqlandi.
+- Keyingi TODO milestone: Activity core. codex/activity-core branch yaratildi; mavjud auth/audit/HEMIS kodi va talablar tekshirilmoqda.
+- Activity/ActivityRole/Participant, ownership/audience constraints va 2 additive migration yaratildi va lokal DBga o'tdi.
+- CRUD/transition/roles-list API, faoliyat scope grant/revoke bilan yagona RBAC bog'lanishi, student eligibility va draft-only edit yozildi.
+- Dastlabki test global manager uchun Q() OR empty-query edge holatini aniqladi; global catalog query alohida branch bilan tuzatildi. Tekshiruv davom etmoqda.
+- Activity suite tuzatishlardan keyin 36 passed. 4 qo'shimcha test (audit create/transition rollback, suspension/resume, rejection/cancellation, organizer vakolati revocation) qo'shildi.
+- Yangi testda yetishmayotgan import lintda aniqlandi; eskirgan test jarayoni to'xtatilib, tuzatilgan kod bilan to'liq 133 testlik suite --reuse-db orqali qayta boshlandi.
+- PHASE 3 PR #3 tavsifi tasdiqlangan CI success bilan yangilandi; draft saqlandi. Activity docs va README/CHANGELOG/authentication docs yangilandi.
+
+- Yakuniy `.venv/Scripts/python.exe -m pytest -c backend/pytest.ini backend/tests --reuse-db --tb=short`: 133 passed (40 Activity testi), 231.11 soniya. Foundation `tools/dev.py test`: 9 passed; jami 142.
+- `ruff check backend tools tests`, `ruff format --check backend tools tests`, `compileall`, `pip check`, `manage.py check`, `makemigrations --check --dry-run` va `spectacular --validate --fail-on-warn` o'tdi.
+- 2 Activity migration lokal DBga o'tdi. Sample production `check --deploy --fail-level WARNING` 0 muammo.
+- Docker backend va Celery worker yangilandi; HTTP health/ready 200, activities tokensiz 401. Oldingi OpenAPI paths/components HEAD bilan taqqoslandi: o'zgarmagan.
+- Staged diff lokal secretlarga solishtirildi; .env/.local/.venv commitdan tashqarida ekanligi tekshirildi.
+- PHASE 4 TODO faqat passing tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga ko'chirildi. PHASE 5 boshlanmadi; real HEMIS contract hali kerak.

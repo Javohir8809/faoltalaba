@@ -35,9 +35,15 @@ def grant_role(
 ) -> RoleGrant:
     lock_access_administration(actor)
     if scope_type == ScopeType.ACTIVITY:
-        raise ValidationError(
-            {"scope_id": "Activity scope is not available yet"}, code="scope_unavailable"
-        )
+        from activities.models import Activity, ActivityType, Lifecycle
+
+        activity = Activity.objects.select_for_update().filter(pk=scope_id).first()
+        if not activity or activity.state == Lifecycle.ARCHIVED:
+            raise ValidationError(
+                {"scope_id": "Unknown or archived activity"}, code="invalid_scope"
+            )
+        if role == Role.CLUB_LEADER and activity.type != ActivityType.CLUB:
+            raise ValidationError({"role": "Club leader requires a club"}, code="invalid_scope")
     model = {ScopeType.FACULTY: Faculty, ScopeType.DEPARTMENT: Department}.get(scope_type)
     if model and not model.objects.filter(pk=scope_id).exists():
         raise ValidationError({"scope_id": "Unknown academic scope"}, code="invalid_scope")
@@ -47,6 +53,10 @@ def grant_role(
     except ModelValidationError as exc:
         raise ValidationError({"role": "Invalid or duplicate role scope"}) from exc
     grant.save()
+    if scope_type == ScopeType.ACTIVITY:
+        from activities.models import ActivityRole
+
+        ActivityRole.objects.create(activity=activity, grant=grant)
     record_event(
         actor_id=actor.id,
         action="role_granted",
