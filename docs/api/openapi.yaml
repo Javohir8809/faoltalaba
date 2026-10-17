@@ -591,6 +591,522 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: ''
+  /api/v1/clubs/:
+    get:
+      operationId: clubs_list
+      parameters:
+      - in: query
+        name: activity__department
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: activity__faculty
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: activity__state
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          - CANCELLED
+          - COMPLETED
+          - DRAFT
+          - PENDING_APPROVAL
+          - PUBLISHED
+          - REGISTRATION_OPEN
+          - REJECTED
+          - SUSPENDED
+        description: |-
+          * `DRAFT` - Draft
+          * `PENDING_APPROVAL` - Pending Approval
+          * `PUBLISHED` - Published
+          * `REGISTRATION_OPEN` - Registration Open
+          * `ACTIVE` - Active
+          * `COMPLETED` - Completed
+          * `ARCHIVED` - Archived
+          * `REJECTED` - Rejected
+          * `CANCELLED` - Cancelled
+          * `SUSPENDED` - Suspended
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClubList'
+          description: ''
+    post:
+      operationId: clubs_create
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClubCreate'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+          description: ''
+  /api/v1/clubs/{activity}/:
+    get:
+      operationId: clubs_retrieve
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+          description: ''
+    patch:
+      operationId: clubs_partial_update
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClubUpdate'
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+          description: ''
+  /api/v1/clubs/{activity}/analytics/:
+    get:
+      operationId: clubs_analytics_retrieve
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analytics'
+          description: ''
+  /api/v1/clubs/{activity}/leaders/:
+    post:
+      operationId: clubs_leaders_create
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleGrant'
+          description: ''
+  /api/v1/clubs/{activity}/leaders/{grant_id}/:
+    delete:
+      operationId: clubs_leaders_destroy
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - in: path
+        name: grant_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/clubs/{activity}/members/:
+    get:
+      operationId: clubs_members_list
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRosterList'
+          description: ''
+  /api/v1/clubs/{activity}/members/{membership_id}/decision/:
+    post:
+      operationId: clubs_members_decision_create
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - in: path
+        name: membership_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Decision'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+  /api/v1/clubs/{participant}/membership/:
+    get:
+      operationId: clubs_membership_retrieve
+      parameters:
+      - in: path
+        name: participant
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club membership.
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    post:
+      operationId: clubs_membership_create
+      parameters:
+      - in: path
+        name: participant
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club membership.
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    delete:
+      operationId: clubs_membership_destroy
+      parameters:
+      - in: path
+        name: participant
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club membership.
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/clubs/{activity}/schedule/:
+    get:
+      operationId: clubs_schedule_list
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedScheduleList'
+          description: ''
+    put:
+      operationId: clubs_schedule_update
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedScheduleList'
+          description: ''
+  /api/v1/clubs/{activity}/sessions/:
+    get:
+      operationId: clubs_sessions_list
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSessionList'
+          description: ''
+    post:
+      operationId: clubs_sessions_create
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      tags:
+      - clubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/clubs/{activity}/sessions/{session_id}/close/:
+    post:
+      operationId: clubs_sessions_close_create
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - in: path
+        name: session_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+  /api/v1/clubs/{activity}/sessions/{session_id}/open/:
+    post:
+      operationId: clubs_sessions_open_create
+      parameters:
+      - in: path
+        name: activity
+        schema:
+          type: string
+          format: uuid
+        description: A unique value identifying this club.
+        required: true
+      - in: path
+        name: session_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clubs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
   /api/v1/health/:
     get:
       operationId: health_retrieve
@@ -739,6 +1255,32 @@ components:
       - id
       - role
       - user_id
+    Analytics:
+      type: object
+      properties:
+        active_members:
+          type: integer
+          readOnly: true
+        pending_members:
+          type: integer
+          readOnly: true
+        closed_sessions:
+          type: integer
+          readOnly: true
+        last_session_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        dormant:
+          type: boolean
+          readOnly: true
+      required:
+      - active_members
+      - closed_sessions
+      - dormant
+      - last_session_at
+      - pending_members
     AttendancePolicyEnum:
       enum:
       - NONE
@@ -759,6 +1301,189 @@ components:
         * `FACULTY` - Faculty
         * `DEPARTMENT` - Department
         * `GROUP` - Group
+    Club:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        activity:
+          allOf:
+          - $ref: '#/components/schemas/Activity'
+          readOnly: true
+        timezone_name:
+          type: string
+          readOnly: true
+        active_members:
+          type: integer
+          readOnly: true
+        last_session_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        dormant:
+          type: boolean
+          readOnly: true
+        leader_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+      required:
+      - active_members
+      - activity
+      - dormant
+      - id
+      - last_session_at
+      - leader_ids
+      - timezone_name
+    ClubActivityInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 10000
+        organizer:
+          type: string
+          format: uuid
+          readOnly: true
+        faculty:
+          type: string
+          format: uuid
+          nullable: true
+        department:
+          type: string
+          format: uuid
+          nullable: true
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          readOnly: true
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        audience:
+          $ref: '#/components/schemas/AudienceEnum'
+        audience_faculty:
+          type: string
+          format: uuid
+          nullable: true
+        audience_department:
+          type: string
+          format: uuid
+          nullable: true
+        audience_group:
+          type: string
+          format: uuid
+          nullable: true
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        venue:
+          type: string
+          maxLength: 250
+        registration_policy:
+          $ref: '#/components/schemas/RegistrationPolicyEnum'
+        attendance_policy:
+          $ref: '#/components/schemas/AttendancePolicyEnum'
+        evidence_required:
+          type: boolean
+        result_policy:
+          $ref: '#/components/schemas/ResultPolicyEnum'
+        published_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - organizer
+      - published_at
+      - state
+      - title
+      - updated_at
+    ClubCreate:
+      type: object
+      properties:
+        activity:
+          $ref: '#/components/schemas/ClubActivityInput'
+        timezone_name:
+          type: string
+          default: Asia/Tashkent
+          maxLength: 64
+      required:
+      - activity
+    ClubMembershipStatusEnum:
+      enum:
+      - PENDING
+      - ACTIVE
+      - REJECTED
+      - LEFT
+      type: string
+      description: |-
+        * `PENDING` - Pending
+        * `ACTIVE` - Active
+        * `REJECTED` - Rejected
+        * `LEFT` - Left
+    ClubSessionStatusEnum:
+      enum:
+      - PLANNED
+      - OPEN
+      - CLOSED
+      - CANCELLED
+      type: string
+      description: |-
+        * `PLANNED` - Planned
+        * `OPEN` - Open
+        * `CLOSED` - Closed
+        * `CANCELLED` - Cancelled
+    Decision:
+      type: object
+      properties:
+        decision:
+          $ref: '#/components/schemas/DecisionEnum'
+        reason:
+          type: string
+          default: ''
+          maxLength: 500
+      required:
+      - decision
+    DecisionEnum:
+      enum:
+      - APPROVE
+      - REJECT
+      type: string
+      description: |-
+        * `APPROVE` - APPROVE
+        * `REJECT` - REJECT
     Error:
       type: object
       properties:
@@ -809,6 +1534,14 @@ components:
         * `RUNNING` - Running
         * `SUCCEEDED` - Succeeded
         * `FAILED` - Failed
+    LeaderInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+      required:
+      - user_id
     Login:
       type: object
       properties:
@@ -822,6 +1555,50 @@ components:
       required:
       - password
       - username
+    Membership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        club_id:
+          type: string
+          format: uuid
+          readOnly: true
+        student_id:
+          type: string
+          format: uuid
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ClubMembershipStatusEnum'
+          readOnly: true
+        reviewed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        reason:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - club_id
+      - created_at
+      - id
+      - reason
+      - reviewed_at
+      - status
+      - student_id
+      - updated_at
     PaginatedActivityList:
       type: object
       required:
@@ -868,6 +1645,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ActivityRole'
+    PaginatedClubList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Club'
     PaginatedRoleGrantList:
       type: object
       required:
@@ -891,6 +1691,75 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoleGrant'
+    PaginatedRosterList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Roster'
+    PaginatedScheduleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schedule'
+    PaginatedSessionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
     PaginatedSyncStateList:
       type: object
       required:
@@ -1021,6 +1890,12 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedClubUpdate:
+      type: object
+      properties:
+        timezone_name:
+          type: string
+          maxLength: 64
     PatchedStatus:
       type: object
       properties:
@@ -1124,6 +1999,103 @@ components:
       - role
       - scope_id
       - scope_type
+    Roster:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        club_id:
+          type: string
+          format: uuid
+          readOnly: true
+        student_id:
+          type: string
+          format: uuid
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ClubMembershipStatusEnum'
+          readOnly: true
+        reviewed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        reason:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        full_name:
+          type: string
+          readOnly: true
+      required:
+      - club_id
+      - created_at
+      - full_name
+      - id
+      - reason
+      - reviewed_at
+      - status
+      - student_id
+      - updated_at
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        weekday:
+          type: integer
+          readOnly: true
+        starts_at:
+          type: string
+          format: time
+          readOnly: true
+        ends_at:
+          type: string
+          format: time
+          readOnly: true
+      required:
+      - ends_at
+      - id
+      - starts_at
+      - weekday
+    ScheduleInput:
+      type: object
+      properties:
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleSlot'
+      required:
+      - slots
+    ScheduleSlot:
+      type: object
+      properties:
+        weekday:
+          type: integer
+          maximum: 7
+          minimum: 1
+        starts_at:
+          type: string
+          format: time
+        ends_at:
+          type: string
+          format: time
+      required:
+      - ends_at
+      - starts_at
+      - weekday
     ScopeTypeEnum:
       enum:
       - GLOBAL
@@ -1136,6 +2108,64 @@ components:
         * `FACULTY` - Faculty
         * `DEPARTMENT` - Department
         * `ACTIVITY` - Activity
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        club:
+          type: string
+          format: uuid
+          readOnly: true
+        starts_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ends_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ClubSessionStatusEnum'
+          readOnly: true
+          default: PLANNED
+        opened_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        closed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - closed_at
+      - club
+      - ends_at
+      - id
+      - opened_at
+      - starts_at
+      - status
+    SessionInput:
+      type: object
+      properties:
+        idempotency_key:
+          type: string
+          format: uuid
+        starts_at:
+          type: string
+          format: date-time
+        ends_at:
+          type: string
+          format: date-time
+      required:
+      - ends_at
+      - idempotency_key
+      - starts_at
     StateEnum:
       enum:
       - DRAFT

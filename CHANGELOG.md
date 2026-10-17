@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- PHASE 5 Club specialization, canonical Participant membership, automatic/manual enrollment and audited leader decisions.
+- Scoped club-leader delegation, bounded weekly schedules, idempotent server-time sessions and attendance eligibility foundation.
+- Club aggregates/dormancy, privacy/scoping/capacity race tests, JWT club flow and API/operator documentation.
 - PHASE 4 generic activity lifecycle, scoped/audience-filtered catalog, audited draft CRUD and archival.
 - Activity roles linked to authoritative RBAC grants, participant schema and validated activity scope assignment.
 - Activity permission, audience, publication, concurrency, query-count and JWT API tests; OpenAPI and operator docs.

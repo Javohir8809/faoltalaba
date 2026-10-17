@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "staff",
     "audit",
     "activities",
+    "clubs",
     "integrations.hemis.apps.HemisConfig",
     "rest_framework",
     "drf_spectacular",
@@ -128,6 +129,18 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "OAS_VERSION": "3.0.3",
     "ENUM_NAME_OVERRIDES": {
+        "ClubMembershipStatusEnum": [
+            ("PENDING", "Pending"),
+            ("ACTIVE", "Active"),
+            ("REJECTED", "Rejected"),
+            ("LEFT", "Left"),
+        ],
+        "ClubSessionStatusEnum": [
+            ("PLANNED", "Planned"),
+            ("OPEN", "Open"),
+            ("CLOSED", "Closed"),
+            ("CANCELLED", "Cancelled"),
+        ],
         "StatusEnum": ["ok", "unavailable"],
         "HemisSyncStatusEnum": [
             ("RUNNING", "Running"),

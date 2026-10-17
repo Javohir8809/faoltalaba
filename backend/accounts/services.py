@@ -34,6 +34,17 @@ def grant_role(
     *, actor: User, target: User, role: str, scope_type: str, scope_id: UUID | None
 ) -> RoleGrant:
     lock_access_administration(actor)
+    return _persist_role_grant(
+        actor=actor, target=target, role=role, scope_type=scope_type, scope_id=scope_id
+    )
+
+
+def _persist_role_grant(
+    *, actor: User, target: User, role: str, scope_type: str, scope_id: UUID | None
+) -> RoleGrant:
+    """Private persistence; caller must authorize and hold a transaction/access lock."""
+    if not connection.in_atomic_block:
+        raise RuntimeError("Role persistence requires a transaction")
     if scope_type == ScopeType.ACTIVITY:
         from activities.models import Activity, ActivityType, Lifecycle
 

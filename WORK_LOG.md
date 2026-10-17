@@ -328,3 +328,28 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - Docker backend va Celery worker yangilandi; HTTP health/ready 200, activities tokensiz 401. Oldingi OpenAPI paths/components HEAD bilan taqqoslandi: o'zgarmagan.
 - Staged diff lokal secretlarga solishtirildi; .env/.local/.venv commitdan tashqarida ekanligi tekshirildi.
 - PHASE 4 TODO faqat passing tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga ko'chirildi. PHASE 5 boshlanmadi; real HEMIS contract hali kerak.
+
+- Commit c09fb0e codex/activity-core branchga push qilindi. Draft PR #4: https://github.com/Javohir8809/faoltalaba/pull/4 ; base PR #3 branchi. Chatga biriktirildi, merge qilinmadi.
+- Joriy remote CI 39051913981: in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39051913981 . Hali success deb belgilanmagan.
+- Joriy remote CI 39051891471: in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39051891471 . Hali success deb belgilanmagan.
+- Pushdan keyingi PR/CI qaydlari lokal jurnalga kiritildi; keyingi milestone commitiga qo'shiladi.
+
+## 2026-10-17 — PHASE 5 boshlandi
+- PHASE 4 CI 39051913981 va 39051891471 hali in_progress; success deb belgilanmadi.
+- codex/clubs branch yaratildi; talablar, Activity/RBAC/audit va oldingi reja qayta o'qildi.
+- active/clubs.md ExecPlan: canonical Participant asosidagi membership, shared registration policy, scoped leader delegation, server-time sessions va agregat statistika. Attendance yozuvlari PHASE 6 uchun qoldirildi.
+- PHASE 4 CI 39051913981 holati: completed/success.
+- PHASE 4 CI 39051891471 holati: completed/success.
+- Club/ClubMembership/ClubSchedule/ClubSession modullari, membership Participant bilan atomic sync, scoped leader delegation va server-time session API yozildi.
+- Birinchi Clubs suite: 20 passed, 7 failed — planned sessionda nullable audit maydonlarining blank validationi sabab yaratish bloklangan. null holati qonuniy bo'lgan maydonlarga blank=True qo'shildi; state DB constraint saqlandi.
+- OpenAPI status enum to'qnashuvi explicit enum nomlari bilan tuzatildi; qayta tekshiruv davom etmoqda.
+- Planned-session validation tuzatilgach 27 Clubs testi o'tdi. Qo'shimcha parallel duplicate join/one-open va create-audit rollback testlari bilan Clubs suite 30 taga kengaydi. To'liq backend suite 163 testni yig'di.
+- Haftalik jadvalning bir xil PUT retry'i slot UUIDlarini saqlaydi; public club response roster/namesni chiqarmaydi, active leader UUIDlari prefetchelanadi.
+- README/CHANGELOG, authentication/activity docs va yangi docs/clubs.md tor doiradagi leader delegation va barcha API cheklovlari bilan yangilandi.
+
+- Yakuniy pytest: 163 passed, 1129.67 soniya; Clubs uchun 30 test. Foundation 9 passed, jami 172 test.
+- Ruff check/format, compileall, pip check, makemigrations --check --dry-run va spectacular --validate --fail-on-warn o'tdi. 2 additive Club migration lokal DBga o'tdi.
+- Sample production check --deploy --fail-level WARNING: 0 muammo. Docker backend/worker yangilandi; health/ready 200, clubs tokensiz 401. Docker Asia/Tashkent IANA timezone tekshiruvi o'tdi.
+- Oldingi API paths va components yangi OpenAPI bilan taqqoslandi: o'zgarmagan. Staged secret/.env/.local/.venv tekshiruvlari o'tdi.
+- PHASE 5 TODO passing tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga ko'chirildi. Phase 6 Attendance engine boshlanmadi.
+- PHASE 4 PR #4 tavsifi tasdiqlangan remote CI success bilan yangilandi; draft saqlandi.

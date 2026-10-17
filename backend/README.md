@@ -56,6 +56,8 @@ Account bootstrap uchun `python backend/manage.py createsuperuser` interaktiv bu
 `JWT_SIGNING_KEY` lokal .envda alohida tasodifiy qiymat bo'lishi kerak; qiymatni
 log yoki Gitga yozmang. Auth contract va rol doiralari `docs/authentication.md` da.
 Audit yozuvlari DB darajasida o'zgartirish/o'chirishdan himoyalangan.
+PHASE 5 Clubs: auto/manual a'zolik, scoped rahbar tayinlash, haftalik jadval,
+server-time sessiyalar va klub analitikasi. Contract va chegaralar `docs/clubs.md` da.
 PHASE 3 HEMIS mock/background import va SUPERADMIN sync-status API qo'shildi.
 PHASE 4 Activity core: scoped CRUD, publication lifecycle va student discovery API.
 Contract, ownership/audience va role assignment tartibi `docs/activities.md` da.
