@@ -81,7 +81,8 @@ Local validation complete: 93 backend + 9 foundation tests passed (102 total).
 Ruff lint/format, compileall, pip check, additive migrations/no drift, OpenAPI
 validation and sample production deployment checks passed. Real Redis/Celery test
 and Docker worker task registration verified; HTTP health/ready 200, status 401
-without JWT. CI now checks migration/schema drift too. Remote CI pending.
+without JWT. CI now checks migration/schema drift too. Commit fc08c94 push CI
+39050400440 and PR CI 39050420433 both completed successfully (confirmed 2026-10-17).
 No authenticated HEMIS data sync.
 The user-provided public /rest URL returned HTTP 404. URL/token configuration was
 added on request; local URL was stored, token remains private/unset.

@@ -94,24 +94,24 @@ Tafsilotlar: `docs/hemis-integration.md`.
 
 ## PHASE 4 — Activity core
 
-- [ ] Create Activity base model
-- [ ] Create activity type enum
-- [ ] Create lifecycle states
-- [ ] Create organizer/responsible relations
-- [ ] Create audience rules
-- [ ] Create venue/capacity fields
-- [ ] Create registration policy
-- [ ] Create ActivityRole model
-- [ ] Create participant model
-- [ ] Add CRUD API
-- [ ] Add admin permission rules
-- [ ] Add filters/search/pagination
-- [ ] Add OpenAPI docs
+- [x] Create Activity base model
+- [x] Create activity type enum
+- [x] Create lifecycle states
+- [x] Create organizer/responsible relations
+- [x] Create audience rules
+- [x] Create venue/capacity fields
+- [x] Create registration policy
+- [x] Create ActivityRole model
+- [x] Create participant model
+- [x] Add CRUD API
+- [x] Add admin permission rules
+- [x] Add filters/search/pagination
+- [x] Add OpenAPI docs
 
 Acceptance:
-- [ ] authorized staff can create/publish activity
-- [ ] student sees only published/eligible activity
-- [ ] lifecycle transitions validated
+- [x] authorized staff can create/publish activity
+- [x] student sees only published/eligible activity
+- [x] lifecycle transitions validated
 
 ---
 

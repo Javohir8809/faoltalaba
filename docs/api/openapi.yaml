@@ -4,6 +4,304 @@ info:
   version: 1.0.0
   description: Faol Talaba modular monolith API. UTC timestamps; JSON transport.
 paths:
+  /api/v1/activities/:
+    get:
+      operationId: activities_list
+      parameters:
+      - in: query
+        name: audience
+        schema:
+          type: string
+          enum:
+          - ALL_STUDENTS
+          - DEPARTMENT
+          - FACULTY
+          - GROUP
+        description: |-
+          * `ALL_STUDENTS` - All Students
+          * `FACULTY` - Faculty
+          * `DEPARTMENT` - Department
+          * `GROUP` - Group
+      - in: query
+        name: department
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: faculty
+        schema:
+          type: string
+          format: uuid
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: state
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          - CANCELLED
+          - COMPLETED
+          - DRAFT
+          - PENDING_APPROVAL
+          - PUBLISHED
+          - REGISTRATION_OPEN
+          - REJECTED
+          - SUSPENDED
+        description: |-
+          * `DRAFT` - Draft
+          * `PENDING_APPROVAL` - Pending Approval
+          * `PUBLISHED` - Published
+          * `REGISTRATION_OPEN` - Registration Open
+          * `ACTIVE` - Active
+          * `COMPLETED` - Completed
+          * `ARCHIVED` - Archived
+          * `REJECTED` - Rejected
+          * `CANCELLED` - Cancelled
+          * `SUSPENDED` - Suspended
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - CLUB
+          - COMPETITION
+          - CULTURE
+          - ECO_SOCIAL
+          - EVENT
+          - INITIATIVE
+          - INNOVATION
+          - INTERNATIONAL
+          - MEDIA
+          - MENTORING
+          - OTHER
+          - PROFESSIONAL_DEVELOPMENT
+          - SCIENCE
+          - SPORT
+          - VOLUNTEERING
+        description: |-
+          * `CLUB` - Club
+          * `EVENT` - Event
+          * `VOLUNTEERING` - Volunteering
+          * `COMPETITION` - Competition
+          * `SCIENCE` - Science
+          * `SPORT` - Sport
+          * `CULTURE` - Culture
+          * `INNOVATION` - Innovation
+          * `INTERNATIONAL` - International
+          * `MENTORING` - Mentoring
+          * `PROFESSIONAL_DEVELOPMENT` - Professional Development
+          * `MEDIA` - Media
+          * `ECO_SOCIAL` - Eco Social
+          * `INITIATIVE` - Initiative
+          * `OTHER` - Other
+      tags:
+      - activities
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedActivityList'
+          description: ''
+    post:
+      operationId: activities_create
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+  /api/v1/activities/{id}/:
+    get:
+      operationId: activities_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - activities
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+    put:
+      operationId: activities_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+    patch:
+      operationId: activities_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedActivity'
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+    delete:
+      operationId: activities_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - activities
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/activities/{id}/roles/:
+    get:
+      operationId: activities_roles_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - activities
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedActivityRoleList'
+          description: ''
+  /api/v1/activities/{id}/transitions/:
+    post:
+      operationId: activities_transitions_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - activities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transition'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
   /api/v1/admin/integrations/hemis/sync-status/:
     get:
       operationId: admin_integrations_hemis_sync_status_list
@@ -325,6 +623,142 @@ paths:
           description: ''
 components:
   schemas:
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 10000
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        organizer:
+          type: string
+          format: uuid
+          readOnly: true
+        faculty:
+          type: string
+          format: uuid
+          nullable: true
+        department:
+          type: string
+          format: uuid
+          nullable: true
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          readOnly: true
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        audience:
+          $ref: '#/components/schemas/AudienceEnum'
+        audience_faculty:
+          type: string
+          format: uuid
+          nullable: true
+        audience_department:
+          type: string
+          format: uuid
+          nullable: true
+        audience_group:
+          type: string
+          format: uuid
+          nullable: true
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        venue:
+          type: string
+          maxLength: 250
+        registration_policy:
+          $ref: '#/components/schemas/RegistrationPolicyEnum'
+        attendance_policy:
+          $ref: '#/components/schemas/AttendancePolicyEnum'
+        evidence_required:
+          type: boolean
+        result_policy:
+          $ref: '#/components/schemas/ResultPolicyEnum'
+        published_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - organizer
+      - published_at
+      - state
+      - title
+      - type
+      - updated_at
+    ActivityRole:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        grant:
+          type: string
+          format: uuid
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+      required:
+      - grant
+      - id
+      - role
+      - user_id
+    AttendancePolicyEnum:
+      enum:
+      - NONE
+      - REQUIRED
+      type: string
+      description: |-
+        * `NONE` - None
+        * `REQUIRED` - Required
+    AudienceEnum:
+      enum:
+      - ALL_STUDENTS
+      - FACULTY
+      - DEPARTMENT
+      - GROUP
+      type: string
+      description: |-
+        * `ALL_STUDENTS` - All Students
+        * `FACULTY` - Faculty
+        * `DEPARTMENT` - Department
+        * `GROUP` - Group
     Error:
       type: object
       properties:
@@ -388,6 +822,52 @@ components:
       required:
       - password
       - username
+    PaginatedActivityList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+    PaginatedActivityRoleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityRole'
     PaginatedRoleGrantList:
       type: object
       required:
@@ -457,6 +937,90 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    PatchedActivity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 10000
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        organizer:
+          type: string
+          format: uuid
+          readOnly: true
+        faculty:
+          type: string
+          format: uuid
+          nullable: true
+        department:
+          type: string
+          format: uuid
+          nullable: true
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          readOnly: true
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        audience:
+          $ref: '#/components/schemas/AudienceEnum'
+        audience_faculty:
+          type: string
+          format: uuid
+          nullable: true
+        audience_department:
+          type: string
+          format: uuid
+          nullable: true
+        audience_group:
+          type: string
+          format: uuid
+          nullable: true
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        venue:
+          type: string
+          maxLength: 250
+        registration_policy:
+          $ref: '#/components/schemas/RegistrationPolicyEnum'
+        attendance_policy:
+          $ref: '#/components/schemas/AttendancePolicyEnum'
+        evidence_required:
+          type: boolean
+        result_policy:
+          $ref: '#/components/schemas/ResultPolicyEnum'
+        published_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedStatus:
       type: object
       properties:
@@ -471,6 +1035,16 @@ components:
           maxLength: 4096
       required:
       - refresh
+    RegistrationPolicyEnum:
+      enum:
+      - NONE
+      - OPEN
+      - APPROVAL
+      type: string
+      description: |-
+        * `NONE` - None
+        * `OPEN` - Open
+        * `APPROVAL` - Approval
     ResourceEnum:
       enum:
       - faculties
@@ -487,6 +1061,14 @@ components:
         * `subjects` - Subjects
         * `students` - Students
         * `staff` - Staff
+    ResultPolicyEnum:
+      enum:
+      - NONE
+      - VERIFIED_PARTICIPATION
+      type: string
+      description: |-
+        * `NONE` - None
+        * `VERIFIED_PARTICIPATION` - Verified Participation
     RoleEnum:
       enum:
       - SUPERADMIN
@@ -554,6 +1136,30 @@ components:
         * `FACULTY` - Faculty
         * `DEPARTMENT` - Department
         * `ACTIVITY` - Activity
+    StateEnum:
+      enum:
+      - DRAFT
+      - PENDING_APPROVAL
+      - PUBLISHED
+      - REGISTRATION_OPEN
+      - ACTIVE
+      - COMPLETED
+      - ARCHIVED
+      - REJECTED
+      - CANCELLED
+      - SUSPENDED
+      type: string
+      description: |-
+        * `DRAFT` - Draft
+        * `PENDING_APPROVAL` - Pending Approval
+        * `PUBLISHED` - Published
+        * `REGISTRATION_OPEN` - Registration Open
+        * `ACTIVE` - Active
+        * `COMPLETED` - Completed
+        * `ARCHIVED` - Archived
+        * `REJECTED` - Rejected
+        * `CANCELLED` - Cancelled
+        * `SUSPENDED` - Suspended
     StatusEnum:
       enum:
       - ok
@@ -610,6 +1216,47 @@ components:
       required:
       - access
       - refresh
+    Transition:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/StateEnum'
+      required:
+      - state
+    TypeEnum:
+      enum:
+      - CLUB
+      - EVENT
+      - VOLUNTEERING
+      - COMPETITION
+      - SCIENCE
+      - SPORT
+      - CULTURE
+      - INNOVATION
+      - INTERNATIONAL
+      - MENTORING
+      - PROFESSIONAL_DEVELOPMENT
+      - MEDIA
+      - ECO_SOCIAL
+      - INITIATIVE
+      - OTHER
+      type: string
+      description: |-
+        * `CLUB` - Club
+        * `EVENT` - Event
+        * `VOLUNTEERING` - Volunteering
+        * `COMPETITION` - Competition
+        * `SCIENCE` - Science
+        * `SPORT` - Sport
+        * `CULTURE` - Culture
+        * `INNOVATION` - Innovation
+        * `INTERNATIONAL` - International
+        * `MENTORING` - Mentoring
+        * `PROFESSIONAL_DEVELOPMENT` - Professional Development
+        * `MEDIA` - Media
+        * `ECO_SOCIAL` - Eco Social
+        * `INITIATIVE` - Initiative
+        * `OTHER` - Other
     User:
       type: object
       properties:
@@ -633,6 +1280,14 @@ components:
       - is_active
       - roles
       - username
+    VisibilityEnum:
+      enum:
+      - INSTITUTION
+      - MANAGERS_ONLY
+      type: string
+      description: |-
+        * `INSTITUTION` - Institution
+        * `MANAGERS_ONLY` - Managers Only
   securitySchemes:
     bearerAuth:
       type: http

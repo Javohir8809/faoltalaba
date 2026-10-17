@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- PHASE 4 generic activity lifecycle, scoped/audience-filtered catalog, audited draft CRUD and archival.
+- Activity roles linked to authoritative RBAC grants, participant schema and validated activity scope assignment.
+- Activity permission, audience, publication, concurrency, query-count and JWT API tests; OpenAPI and operator docs.
 - PHASE 3 normalized HEMIS adapter, synthetic mock, configurable URL/token and bounded GET transport.
 - Restartable, audited page imports for academic references/student/staff profiles, with explicit source tombstones and preserved local access rules.
 - Celery sync jobs/worker profile, protected sync-status API, additive migrations and integration tests.

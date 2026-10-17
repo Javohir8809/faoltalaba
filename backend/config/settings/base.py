@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "students",
     "staff",
     "audit",
+    "activities",
     "integrations.hemis.apps.HemisConfig",
     "rest_framework",
     "drf_spectacular",

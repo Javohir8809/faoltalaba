@@ -46,11 +46,16 @@ must be configured separately. Tokens use JSON/Bearer transport, not auth cookie
 - FACULTY_YOUTH_RESPONSIBLE: matching faculty users only.
 - DEPARTMENT_RESPONSIBLE: matching department users only.
 - CLUB_LEADER and ACTIVITY_RESPONSIBLE: helpers require the matching activity UUID.
-  Activity-scoped grants cannot be created through this API before PHASE 4 supplies
-  real Activity records and ownership validation.
+  PHASE 4 validates existing, non-archived Activity scopes and creates an
+  ActivityRole link in the same transaction. CLUB_LEADER requires type CLUB.
+  Only SUPERADMIN may delegate roles; publication requires institutional scope.
 - TEACHER, STUDENT, SCIENCE_OFFICE, SPORTS_OFFICE, INTERNATIONAL_OFFICE,
   LIBRARY_OPERATOR and ANALYTICS_VIEWER: authenticated own identity only in this
   phase; their domain-specific capabilities arrive with those modules.
+
+PHASE 4 adds scoped activity management for institutional responsible roles and
+published, eligible student discovery. See `docs/activities.md` for current policy;
+the role list above describes identity/access administration separately.
 
 Django staff/superuser flags do not bypass explicit API roles. Unknown capabilities
 deny. Scoped list endpoints filter in SQL and hide unrelated detail records with 404.

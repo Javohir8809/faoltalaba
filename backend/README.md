@@ -57,6 +57,8 @@ Account bootstrap uchun `python backend/manage.py createsuperuser` interaktiv bu
 log yoki Gitga yozmang. Auth contract va rol doiralari `docs/authentication.md` da.
 Audit yozuvlari DB darajasida o'zgartirish/o'chirishdan himoyalangan.
 PHASE 3 HEMIS mock/background import va SUPERADMIN sync-status API qo'shildi.
+PHASE 4 Activity core: scoped CRUD, publication lifecycle va student discovery API.
+Contract, ownership/audience va role assignment tartibi `docs/activities.md` da.
 URL/token sozlash, worker buyruqlari va haqiqiy ulanish cheklovlari
 `docs/hemis-integration.md` da. Lokal `.env`da HEMIS_ADAPTER=disabled default;
 mock fixture importi faqat mahalliy/test muhit uchun.
