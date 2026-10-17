@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- PHASE 3 normalized HEMIS adapter, synthetic mock, configurable URL/token and bounded GET transport.
+- Restartable, audited page imports for academic references/student/staff profiles, with explicit source tombstones and preserved local access rules.
+- Celery sync jobs/worker profile, protected sync-status API, additive migrations and integration tests.
 - PHASE 2 UUID user, academic profiles and external identity mappings with initial migrations.
 - JWT login, rotating refresh sessions, replay/logout/password-change revocation and atomic Redis auth throttling.
 - Explicit scoped RBAC, filtered user administration and transactionally audited role/status changes.

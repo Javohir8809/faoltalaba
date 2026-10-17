@@ -17,6 +17,8 @@ Talablar: Git, Python 3.13+ va Docker Engine/Docker Desktop bilan Compose v2.
 PostgreSQL, Redis va MinIO bog'liqliklari va Django backend bootstrap mavjud.
 Backend ishga tushirish tartibi `backend/README.md` da. React va Flutter
 keyingi bosqichlarda ishga tushiriladi.
+HEMIS background sync, mock va URL/token sozlamalari: `docs/hemis-integration.md`.
+Haqiqiy HEMIS adapteri tasdiqlangan API contract kelguncha o'chiq.
 
 Repo nusxasi olingandan so'ng ildiz papkada Windows va Linux uchun bir xil buyruqlar:
 

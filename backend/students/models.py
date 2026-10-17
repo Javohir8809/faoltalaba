@@ -14,8 +14,16 @@ class StudentProfile(models.Model):
     department = models.ForeignKey(
         "organizations.Department", on_delete=models.PROTECT, null=True, blank=True
     )
+    hemis_id = models.CharField(max_length=128, unique=True, null=True, blank=True)
+    hemis_active = models.BooleanField(default=True)
+    full_name = models.CharField(max_length=200, blank=True)
+    group = models.ForeignKey(
+        "organizations.Group", on_delete=models.PROTECT, null=True, blank=True
+    )
 
     def clean(self) -> None:
+        if self.group_id and self.group.faculty_id != self.faculty_id:
+            raise ValidationError("Group must belong to the faculty")
         if self.department_id and self.department.faculty_id != self.faculty_id:
             raise ValidationError("Department must belong to the faculty")
 

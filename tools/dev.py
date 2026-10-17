@@ -17,6 +17,7 @@ COMPOSE_ACTIONS = {
     "config": ["config", "--quiet"],
     "up": ["up", "--detach", "--wait", "--wait-timeout", "120"],
     "up-backend": ["up", "--build", "--detach", "--wait", "--wait-timeout", "180"],
+    "up-worker": ["up", "--build", "--detach", "celery-worker"],
     "down": ["down"],
     "status": ["ps"],
     "logs": ["logs", "--tail", "100"],
@@ -57,6 +58,8 @@ def compose_command(action: str, root: Path) -> list[str]:
     profiles = []
     if action == "up-backend":
         profiles = ["--profile", "backend"]
+    elif action == "up-worker":
+        profiles = ["--profile", "worker"]
     elif action == "down":
         profiles = ["--profile", "*"]
     return [

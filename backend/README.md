@@ -56,5 +56,9 @@ Account bootstrap uchun `python backend/manage.py createsuperuser` interaktiv bu
 `JWT_SIGNING_KEY` lokal .envda alohida tasodifiy qiymat bo'lishi kerak; qiymatni
 log yoki Gitga yozmang. Auth contract va rol doiralari `docs/authentication.md` da.
 Audit yozuvlari DB darajasida o'zgartirish/o'chirishdan himoyalangan.
+PHASE 3 HEMIS mock/background import va SUPERADMIN sync-status API qo'shildi.
+URL/token sozlash, worker buyruqlari va haqiqiy ulanish cheklovlari
+`docs/hemis-integration.md` da. Lokal `.env`da HEMIS_ADAPTER=disabled default;
+mock fixture importi faqat mahalliy/test muhit uchun.
 Konfiguratsiya manbalari: [Django PostgreSQL](https://docs.djangoproject.com/en/6.0/ref/databases/),
 [DRF release notes](https://www.django-rest-framework.org/community/release-notes/).

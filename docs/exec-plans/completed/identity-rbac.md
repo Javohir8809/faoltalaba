@@ -67,7 +67,7 @@ and constraints; audit immutable at DB level. No hard-delete user/API.
 - [x] JWT sessions, rotation/replay/revocation, authentication, throttling.
 - [x] Serializers/routes/OpenAPI and provisioning CLI.
 - [x] Unit/API/privacy/concurrency/integration tests.
-- [ ] Migrate, lint, schema/deploy check, audit and CI; update WORK_LOG/TODO/CHANGELOG.
+- [x] Migrate, lint, schema/deploy check, audit and CI; update WORK_LOG/TODO/CHANGELOG.
 
 ## Test plan
 Real PostgreSQL/Redis: login→me→refresh→logout; malformed/expired/wrong-type JWT;
@@ -82,8 +82,11 @@ through the documented migration operation; never delete audit records for rollb
 Production rollback requires backup and a data-preservation migration, not blanket unapply.
 
 ## Completion notes
-53 backend tests and 9 foundation tests passed; real PostgreSQL/Redis migrations,
-refresh concurrency, scope isolation, audit SQL guards and rollback validated.
+55 backend tests and 9 foundation tests verified through local runs and complete
+remote CI; real PostgreSQL/Redis migrations, refresh/last-admin concurrency,
+scope isolation, audit SQL guards and rollback validated.
 Ruff/schema/deployment checks passed; pinned Python dependencies audit clean.
 Docker API health/ready 200 and unauthenticated me/login 401/no-store verified.
-Remote CI and final code review remain before closing this plan.
+Self-review added a domain-separated limiter key and its regression test.
+Latest commit 4f717d4 push run 38627915792 and PR run 38627926034 both succeeded.
+Draft PR #2 is stacked on #1; no merge/production deployment performed.

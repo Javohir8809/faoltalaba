@@ -1,6 +1,26 @@
 name: faol-talaba-local
 
 services:
+  celery-worker:
+    profiles: [worker]
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    env_file: ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.local
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    command: [celery, -A, config.celery, worker, --loglevel=WARNING, --concurrency=2]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   backend:
     profiles: [backend]
     build:

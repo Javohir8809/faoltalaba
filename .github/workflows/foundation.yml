@@ -39,8 +39,10 @@ jobs:
           python -m ruff format --check backend tools tests
           python backend/manage.py check
           python backend/manage.py migrate --noinput
+          python backend/manage.py makemigrations --check --dry-run
           python -m pytest -c backend/pytest.ini backend/tests
           python backend/manage.py spectacular --file docs/api/openapi.yaml --validate --fail-on-warn
+          git diff --exit-code -- docs/api/openapi.yaml
       - name: Build and probe backend container
         run: |
           python tools/dev.py up-backend
