@@ -9,6 +9,11 @@ validate_deployment(
     CORS_ALLOWED_ORIGINS + CSRF_TRUSTED_ORIGINS,  # noqa: F405
 )
 validate_deployment(JWT_SIGNING_KEY, ALLOWED_HOSTS, [])  # noqa: F405
+validate_deployment(ATTENDANCE_TOKEN_KEY, ALLOWED_HOSTS, [])  # noqa: F405
+if ATTENDANCE_TOKEN_KEY in [JWT_SIGNING_KEY, SECRET_KEY]:  # noqa: F405
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured("Attendance HMAC key must be independent.")
 REDIS_URL = required("REDIS_URL")
 CELERY_BROKER_URL = required("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = required("CELERY_RESULT_BACKEND")

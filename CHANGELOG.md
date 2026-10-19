@@ -28,3 +28,14 @@
 - Local PostgreSQL 18, Redis and MinIO Compose skeleton.
 - Foundation tests and GitHub Actions validation/dependency scanning skeleton.
 - Central WORK_LOG.md for implementation and validation records.
+
+
+## 2026-10-17 — Attendance engine
+
+- Added scoped NFC/QR/manual club-session attendance with server timestamps,
+  session/student uniqueness and active membership/window checks under shared locks.
+- Added operator-owned devices and SUPERADMIN-managed opaque card bindings with
+  independent purpose-bound HMAC digests and irreversible revocation.
+- Added versioned, idempotent reasoned corrections, PostgreSQL immutable history/
+  original-record guards, scoped totals and private student activity history.
+- Added fail-closed Redis actor/IP rate limits and attendance API contracts/tests.

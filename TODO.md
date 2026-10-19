@@ -141,26 +141,26 @@ Acceptance E2E:
 
 ## PHASE 6 — Attendance engine
 
-- [ ] Create AttendanceRecord
-- [ ] Create AttendanceDevice
-- [ ] Create StudentCardMapping
-- [ ] Add NFC token resolver abstraction
-- [ ] Add QR/barcode resolver abstraction
-- [ ] Add manual attendance flow with reason
-- [ ] Implement active session window
-- [ ] Implement idempotent check-in endpoint
-- [ ] Use server-side timestamp
-- [ ] Add duplicate constraint
-- [ ] Add audit trail for corrections
-- [ ] Add attendance statistics
-- [ ] Add device metadata support
-- [ ] Add rate limiting
+- [x] Create AttendanceRecord
+- [x] Create AttendanceDevice
+- [x] Create StudentCardMapping
+- [x] Add NFC token resolver abstraction
+- [x] Add QR/barcode resolver abstraction
+- [x] Add manual attendance flow with reason
+- [x] Implement active session window
+- [x] Implement idempotent check-in endpoint
+- [x] Use server-side timestamp
+- [x] Add duplicate constraint
+- [x] Add audit trail for corrections
+- [x] Add attendance statistics
+- [x] Add device metadata support
+- [x] Add rate limiting
 
 Acceptance:
-- [ ] duplicate scan does not create duplicate attendance
-- [ ] closed session rejects check-in
-- [ ] unauthorized leader cannot scan for unrelated activity
-- [ ] manual correction is auditable
+- [x] duplicate scan does not create duplicate attendance
+- [x] closed session rejects check-in
+- [x] unauthorized leader cannot scan for unrelated activity
+- [x] manual correction is auditable
 
 ---
 

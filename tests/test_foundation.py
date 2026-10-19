@@ -43,6 +43,8 @@ class FoundationTests(unittest.TestCase):
             self.assertGreaterEqual(len(values["DJANGO_SECRET_KEY"]), 50)
             self.assertGreaterEqual(len(values["JWT_SIGNING_KEY"]), 50)
             self.assertNotEqual(values["JWT_SIGNING_KEY"], values["DJANGO_SECRET_KEY"])
+            self.assertGreaterEqual(len(values["ATTENDANCE_TOKEN_KEY"]), 50)
+            self.assertNotEqual(values["ATTENDANCE_TOKEN_KEY"], values["JWT_SIGNING_KEY"])
             self.assertFalse(initialize_env(root))
             self.assertEqual((root / ".env").read_text(), content)
 

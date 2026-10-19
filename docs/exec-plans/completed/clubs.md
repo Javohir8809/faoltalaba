@@ -117,3 +117,5 @@ sample production deployment checks passed. Docker health/readiness 200, clubs
 Prior API paths/components preserved. Staged secret scan passed.
 Draft PR is prepared for push; remote CI has not yet been triggered for this branch. PHASE 4 CI runs 39051891471 and
 39051913981 both completed/success. TODO marked after passing local validation. Phase 6 remains unstarted.
+
+Remote CI confirmed: runs 39054137392 and 39054173126 completed/success on 2026-10-17. PR #5 description updated; remains draft.
