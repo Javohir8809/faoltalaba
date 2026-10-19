@@ -91,7 +91,7 @@ Change reasons/notes visible only to scoped operators; student history is minima
 - [x] Add versioned idempotent corrections, scoped API/history/stats and Redis limit.
 - [x] Test NFC/QR/manual flows, privacy, races, SQL guards and audit rollback.
 - [x] Run full tests/lint/migration/schema/runtime checks, update TODO/docs/log.
-- [ ] Prepare draft PR and report exact CI state; no merge/production deployment.
+- [x] Prepare draft PR and report exact CI state; no merge/production deployment.
 
 ## Test plan
 Real PostgreSQL + Redis. JWT operator flow resolves mapped token into active member,
@@ -117,3 +117,7 @@ OpenAPI paths/components preserved. Docker backend/worker rebuilt; health/ready
 200, protected attendance/history 401 anonymously; independent key verified inside
 the backend without exposing its value. See WORK_LOG.md for commands and fixes.
 Physical NFC/card format remains undiscovered; API fixtures only.
+
+Draft PR #6: https://github.com/Javohir8809/faoltalaba/pull/6 ; base codex/clubs.
+Implementation commit c4b8069 pushed and PR attached. Remote CI was in progress
+at initial snapshot; success is not claimed. No merge or production deployment.

@@ -383,3 +383,9 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - O'zgargan modullar: backend/attendance (models, token/session boundary, services, serializers, API, Redis throttle, migrations), config settings/URLs, test DB guard va 48 attendance tests; env generator/foundation test; OpenAPI, attendance docs, README/CHANGELOG/TODO/ExecPlan.
 - PHASE 6 TODO passing test/checklardan so'ng belgilandi. Fizik NFC qurilma/karta turi hali sinovdan o'tmagan; mock/opaque identifier API oqimlari tekshirildi. PHASE 7 boshlanmadi.
 - PHASE 5 PR #5 tavsifiga tasdiqlangan CI success yozildi; draft holati saqlandi.
+
+- Staged secret/path va git diff --check o'tdi. Commit c4b8069 codex/attendance-engine branchga push qilindi.
+- Draft PR #6: https://github.com/Javohir8809/faoltalaba/pull/6 ; base codex/clubs (#5). Chatga biriktirildi. Merge/deploy qilinmadi.
+- Remote CI snapshot (c4b8069): 39270246016 in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39270246016 .
+- Remote CI snapshot (c4b8069): 39270191805 in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39270191805 .
+- Yakuniy PR/tekshiruv qaydlari alohida docs commit bilan saqlanadi; remote CI hali success sifatida belgilanmagan.
