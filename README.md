@@ -104,3 +104,7 @@ faol-talaba/
 ├── infra/
 └── docs/
 ```
+
+
+Davomat backend API: [NFC/QR/manual, tuzatish tarixi va sozlash](docs/attendance.md).
+`ATTENDANCE_TOKEN_KEY` mustaqil, barqaror HMAC kaliti sifatida talab qilinadi.

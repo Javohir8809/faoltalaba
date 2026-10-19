@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "audit",
     "activities",
     "clubs",
+    "attendance",
     "integrations.hemis.apps.HemisConfig",
     "rest_framework",
     "drf_spectacular",
@@ -45,6 +46,10 @@ JWT_ISSUER = "faol-talaba"
 JWT_AUDIENCE = "faol-talaba-clients"
 JWT_ACCESS_SECONDS = 300
 JWT_REFRESH_SECONDS = 604800
+ATTENDANCE_TOKEN_KEY = required("ATTENDANCE_TOKEN_KEY")
+ATTENDANCE_THROTTLE_ENABLED = True
+ATTENDANCE_ACTOR_LIMIT = 240
+ATTENDANCE_IP_LIMIT = 1200
 AUTH_THROTTLE_ENABLED = True
 AUTH_IP_LIMIT = 100
 AUTH_ACCOUNT_LIMIT = 5
@@ -129,6 +134,7 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "OAS_VERSION": "3.0.3",
     "ENUM_NAME_OVERRIDES": {
+        "AttendanceStatusEnum": "attendance.models.AttendanceStatus",
         "ClubMembershipStatusEnum": [
             ("PENDING", "Pending"),
             ("ACTIVE", "Active"),

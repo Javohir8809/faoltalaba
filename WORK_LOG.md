@@ -353,3 +353,33 @@ refresh rotation/revocation, RBAC va privileged changes uchun audit.
 - Oldingi API paths va components yangi OpenAPI bilan taqqoslandi: o'zgarmagan. Staged secret/.env/.local/.venv tekshiruvlari o'tdi.
 - PHASE 5 TODO passing tekshiruvlardan keyin belgilandi, ExecPlan completed papkaga ko'chirildi. Phase 6 Attendance engine boshlanmadi.
 - PHASE 4 PR #4 tavsifi tasdiqlangan remote CI success bilan yangilandi; draft saqlandi.
+
+- Commit 9180304 codex/clubs branchga push qilindi. Draft PR #5: https://github.com/Javohir8809/faoltalaba/pull/5 ; base codex/activity-core (PR #4). Chatga biriktirildi; merge qilinmadi.
+- Remote CI 39054173126: in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39054173126 . Natija aynan shu tekshiruv holati sifatida qayd etildi.
+- Remote CI 39054137392: in_progress/None; https://github.com/Javohir8809/faoltalaba/actions/runs/39054137392 . Natija aynan shu tekshiruv holati sifatida qayd etildi.
+- Pushdan keyingi PR/CI qaydlari lokal WORK_LOG.md ga qo'shildi va keyingi milestone commitiga kiritiladi.
+
+## 2026-10-17 — PHASE 6 boshlandi
+- codex/attendance-engine branch yaratildi; attendance talablari, session/membership locklari, RBAC/audit va env/test kontraktlari o'qildi.
+- PHASE 5 CI boshlang'ich tekshiruvda hali in_progress; success deb belgilanmadi.
+- active/attendance-engine.md reja: operator-only scan/manual, server-time/idempotency, alohida token HMAC kaliti, append-only correction history va Redis limiter. Fizik NFC format taxmin qilinmaydi.
+
+- PHASE 5 CI qayta tekshirildi: 39054173126 va 39054137392 completed/success.
+- AttendanceDevice/CardMapping/Record/Change modellari, 2 additive migration va PostgreSQL immutable/snapshot guardlar qo'shildi; lokal migrate o'tdi.
+- Opaque NFC/QR HMAC adapterlari, operator/scope nazorati, Activity->Club->Session locklari, manual reason va server-time check-in, version/idempotency correction, student history/stats API va Redis fail-closed limiter yozildi.
+- ATTENDANCE_TOKEN_KEY alohida random lokal env kaliti sifatida yaratildi (qiymati chiqarilmadi); init generator va foundation testi yangilandi.
+- Birinchi test yugurishida fixture RefreshSession maydon nomi noto'g'ri edi; refresh_digest ga tuzatildi. OpenAPI enum warning uchun AttendanceStatusEnum nomi aniq berildi.
+
+- Targeted pytest: 48 attendance testi o'tdi (92.38 s), foundation 9 passed. PostgreSQL deferred constraint sabab TRUNCATE testida avval SET CONSTRAINTS ALL IMMEDIATE bajarildi; runtime guard chetlab o'tilmadi.
+- Scan vaqt oynasi barcha bloklanuvchi row locklardan keyin qayta tekshiriladi; aynan shu server vaqti recordga saqlanadi.
+- Ruff check/format (111 files), compileall, pip check, makemigrations --check va spectacular validate/fail-on-warn o'tdi. Oldingi OpenAPI paths/components strukturaviy o'zgarmagan; 11 yangi path.
+- Sample production deploy check birinchi urinishda bo'sh REDIS_URL sabab rad etildi; explicit dummy Redis/Celery/DB va uchta mustaqil random secret bilan qayta tekshiruv: 0 issue. Production ulanishi amalga oshirilmadi.
+- Docker backend va worker rebuild qilindi; HTTP health/ready 200, tokensiz attendance/devices va student history 401. To'liq backend pytest boshlandi.
+
+
+## 2026-10-19 — PHASE 6 yakuniy tekshiruv
+- To'liq backend pytest yakunlandi: 211 passed, 160399.12 s wall-clock (1 day, 20:33:19). Shu buyruq natijasi aynan qayd etildi; bu CPU ishlash vaqti sifatida talqin qilinmaydi. Foundation 9 passed bilan jami 220 test.
+- Commands: `.venv/Scripts/python.exe -m pytest -c backend/pytest.ini backend/tests -q --reuse-db`; `.venv/Scripts/python.exe -m pytest tests/test_foundation.py -q`; `ruff check backend tools tests`; `ruff format --check backend tools tests`; `compileall -q backend tools tests`; `pip check`; `manage.py migrate --noinput`; `manage.py makemigrations --check --dry-run`; `manage.py spectacular --file docs/api/openapi.yaml --validate --fail-on-warn`; sample production `check --deploy --fail-level WARNING`; `tools/dev.py up-backend` va `up-worker`.
+- O'zgargan modullar: backend/attendance (models, token/session boundary, services, serializers, API, Redis throttle, migrations), config settings/URLs, test DB guard va 48 attendance tests; env generator/foundation test; OpenAPI, attendance docs, README/CHANGELOG/TODO/ExecPlan.
+- PHASE 6 TODO passing test/checklardan so'ng belgilandi. Fizik NFC qurilma/karta turi hali sinovdan o'tmagan; mock/opaque identifier API oqimlari tekshirildi. PHASE 7 boshlanmadi.
+- PHASE 5 PR #5 tavsifiga tasdiqlangan CI success yozildi; draft holati saqlandi.

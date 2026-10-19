@@ -479,6 +479,289 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/v1/attendance/card-mappings/:
+    get:
+      operationId: attendance_card_mappings_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCardList'
+          description: ''
+    post:
+      operationId: attendance_card_mappings_create
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+  /api/v1/attendance/card-mappings/{id}/revoke/:
+    post:
+      operationId: attendance_card_mappings_revoke_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReasonInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+  /api/v1/attendance/devices/:
+    get:
+      operationId: attendance_devices_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDeviceList'
+          description: ''
+    post:
+      operationId: attendance_devices_create
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+  /api/v1/attendance/devices/{id}/:
+    patch:
+      operationId: attendance_devices_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDeviceUpdate'
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: ''
+  /api/v1/attendance/records/{id}/:
+    get:
+      operationId: attendance_records_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
+  /api/v1/attendance/records/{id}/changes/:
+    get:
+      operationId: attendance_records_changes_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChangeList'
+          description: ''
+  /api/v1/attendance/records/{id}/corrections/:
+    post:
+      operationId: attendance_records_corrections_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectionInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
+  /api/v1/attendance/sessions/{id}/check-in/:
+    post:
+      operationId: attendance_sessions_check_in_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckInInput'
+        required: true
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
+  /api/v1/attendance/sessions/{id}/records/:
+    get:
+      operationId: attendance_sessions_records_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecordList'
+          description: ''
+  /api/v1/attendance/sessions/{id}/stats/:
+    get:
+      operationId: attendance_sessions_stats_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - attendance
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttendanceStats'
+          description: ''
   /api/v1/auth/login/:
     post:
       operationId: auth_login_create
@@ -1137,8 +1420,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
           description: ''
+  /api/v1/students/me/activity-history/:
+    get:
+      operationId: students_me_activity_history_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - students
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHistoryList'
+          description: ''
 components:
   schemas:
+    ActionEnum:
+      enum:
+      - CHECK_IN
+      - MANUAL_CHECK_IN
+      - CORRECTION
+      type: string
+      description: |-
+        * `CHECK_IN` - CHECK_IN
+        * `MANUAL_CHECK_IN` - MANUAL_CHECK_IN
+        * `CORRECTION` - CORRECTION
     Activity:
       type: object
       properties:
@@ -1289,6 +1603,32 @@ components:
       description: |-
         * `NONE` - None
         * `REQUIRED` - Required
+    AttendanceStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        present:
+          type: integer
+        voided:
+          type: integer
+        by_method:
+          type: object
+          additionalProperties:
+            type: integer
+      required:
+      - by_method
+      - present
+      - total
+      - voided
+    AttendanceStatusEnum:
+      enum:
+      - PRESENT
+      - VOIDED
+      type: string
+      description: |-
+        * `PRESENT` - Present
+        * `VOIDED` - Voided
     AudienceEnum:
       enum:
       - ALL_STUDENTS
@@ -1301,6 +1641,168 @@ components:
         * `FACULTY` - Faculty
         * `DEPARTMENT` - Department
         * `GROUP` - Group
+    Card:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        student_id:
+          type: string
+          format: uuid
+          readOnly: true
+        kind:
+          allOf:
+          - $ref: '#/components/schemas/KindEnum'
+          readOnly: true
+        protocol:
+          allOf:
+          - $ref: '#/components/schemas/ProtocolEnum'
+          readOnly: true
+        variant:
+          type: string
+          readOnly: true
+        uid_readable:
+          type: boolean
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        enrolled_by_id:
+          type: string
+          format: uuid
+          readOnly: true
+        revoked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        revoked_by_id:
+          type: string
+          format: uuid
+          nullable: true
+          readOnly: true
+        revocation_reason:
+          type: string
+          readOnly: true
+      required:
+      - created_at
+      - enrolled_by_id
+      - id
+      - kind
+      - protocol
+      - revocation_reason
+      - revoked_at
+      - revoked_by_id
+      - student_id
+      - uid_readable
+      - variant
+    CardInput:
+      type: object
+      properties:
+        student_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/KindEnum'
+        token:
+          type: string
+          writeOnly: true
+          maxLength: 256
+        protocol:
+          allOf:
+          - $ref: '#/components/schemas/ProtocolEnum'
+          default: UNKNOWN
+        variant:
+          type: string
+          maxLength: 64
+        uid_readable:
+          type: boolean
+          nullable: true
+      required:
+      - kind
+      - student_id
+      - token
+    Change:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        record_id:
+          type: string
+          format: uuid
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        actor_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        action:
+          allOf:
+          - $ref: '#/components/schemas/ActionEnum'
+          readOnly: true
+        reason:
+          type: string
+          readOnly: true
+        previous_status:
+          type: string
+          readOnly: true
+        new_status:
+          allOf:
+          - $ref: '#/components/schemas/AttendanceStatusEnum'
+          readOnly: true
+        previous_note:
+          type: string
+          readOnly: true
+        new_note:
+          type: string
+          readOnly: true
+      required:
+      - action
+      - actor_id
+      - created_at
+      - id
+      - new_note
+      - new_status
+      - previous_note
+      - previous_status
+      - reason
+      - record_id
+      - version
+    CheckInInput:
+      type: object
+      properties:
+        method:
+          $ref: '#/components/schemas/MethodEnum'
+        token:
+          type: string
+          writeOnly: true
+          maxLength: 256
+        student_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 500
+        device_id:
+          type: string
+          format: uuid
+        note:
+          type: string
+          maxLength: 500
+      required:
+      - method
     Club:
       type: object
       properties:
@@ -1465,6 +1967,28 @@ components:
         * `OPEN` - Open
         * `CLOSED` - Closed
         * `CANCELLED` - Cancelled
+    CorrectionInput:
+      type: object
+      properties:
+        reason:
+          type: string
+          maxLength: 500
+        status:
+          $ref: '#/components/schemas/AttendanceStatusEnum'
+        note:
+          type: string
+          maxLength: 500
+        expected_version:
+          type: integer
+          minimum: 1
+        idempotency_key:
+          type: string
+          format: uuid
+      required:
+      - expected_version
+      - idempotency_key
+      - reason
+      - status
     Decision:
       type: object
       properties:
@@ -1484,6 +2008,76 @@ components:
       description: |-
         * `APPROVE` - APPROVE
         * `REJECT` - REJECT
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        installation_id:
+          type: string
+          format: uuid
+          readOnly: true
+        label:
+          type: string
+          readOnly: true
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/PlatformEnum'
+          readOnly: true
+        nfc_supported:
+          type: boolean
+          readOnly: true
+          nullable: true
+        camera_supported:
+          type: boolean
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_seen_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - camera_supported
+      - created_at
+      - id
+      - installation_id
+      - is_active
+      - label
+      - last_seen_at
+      - nfc_supported
+      - platform
+    DeviceInput:
+      type: object
+      properties:
+        installation_id:
+          type: string
+          format: uuid
+        label:
+          type: string
+          maxLength: 80
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/PlatformEnum'
+          default: UNKNOWN
+        nfc_supported:
+          type: boolean
+          nullable: true
+        camera_supported:
+          type: boolean
+          nullable: true
+      required:
+      - installation_id
+      - label
     Error:
       type: object
       properties:
@@ -1534,6 +2128,56 @@ components:
         * `RUNNING` - Running
         * `SUCCEEDED` - Succeeded
         * `FAILED` - Failed
+    History:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        activity_id:
+          type: string
+          format: uuid
+          readOnly: true
+        activity_title:
+          type: string
+          readOnly: true
+        session_id:
+          type: string
+          format: uuid
+          readOnly: true
+        checked_in_at:
+          type: string
+          format: date-time
+          readOnly: true
+        method:
+          allOf:
+          - $ref: '#/components/schemas/MethodEnum'
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/AttendanceStatusEnum'
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+      required:
+      - activity_id
+      - activity_title
+      - checked_in_at
+      - id
+      - method
+      - session_id
+      - status
+      - version
+    KindEnum:
+      enum:
+      - NFC
+      - QR
+      type: string
+      description: |-
+        * `NFC` - NFC
+        * `QR` - QR
     LeaderInput:
       type: object
       properties:
@@ -1599,6 +2243,16 @@ components:
       - status
       - student_id
       - updated_at
+    MethodEnum:
+      enum:
+      - NFC
+      - QR
+      - MANUAL
+      type: string
+      description: |-
+        * `NFC` - Nfc
+        * `QR` - Qr
+        * `MANUAL` - Manual
     PaginatedActivityList:
       type: object
       required:
@@ -1645,6 +2299,52 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ActivityRole'
+    PaginatedCardList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+    PaginatedChangeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Change'
     PaginatedClubList:
       type: object
       required:
@@ -1668,6 +2368,75 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Club'
+    PaginatedDeviceList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+    PaginatedHistoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/History'
+    PaginatedRecordList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record'
     PaginatedRoleGrantList:
       type: object
       required:
@@ -1896,11 +2665,119 @@ components:
         timezone_name:
           type: string
           maxLength: 64
+    PatchedDeviceUpdate:
+      type: object
+      properties:
+        label:
+          type: string
+          maxLength: 80
+        platform:
+          $ref: '#/components/schemas/PlatformEnum'
+        nfc_supported:
+          type: boolean
+          nullable: true
+        camera_supported:
+          type: boolean
+          nullable: true
+        is_active:
+          type: boolean
     PatchedStatus:
       type: object
       properties:
         is_active:
           type: boolean
+    PlatformEnum:
+      enum:
+      - UNKNOWN
+      - ANDROID
+      - IOS
+      - WEB
+      - SCANNER
+      type: string
+      description: |-
+        * `UNKNOWN` - UNKNOWN
+        * `ANDROID` - ANDROID
+        * `IOS` - IOS
+        * `WEB` - WEB
+        * `SCANNER` - SCANNER
+    ProtocolEnum:
+      enum:
+      - UNKNOWN
+      - ISO14443
+      - ISO15693
+      - OTHER
+      type: string
+      description: |-
+        * `UNKNOWN` - UNKNOWN
+        * `ISO14443` - ISO14443
+        * `ISO15693` - ISO15693
+        * `OTHER` - OTHER
+    ReasonInput:
+      type: object
+      properties:
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+    Record:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        activity_id:
+          type: string
+          format: uuid
+          readOnly: true
+        session_id:
+          type: string
+          format: uuid
+          readOnly: true
+        student_id:
+          type: string
+          format: uuid
+          readOnly: true
+        checked_in_at:
+          type: string
+          format: date-time
+          readOnly: true
+        method:
+          allOf:
+          - $ref: '#/components/schemas/MethodEnum'
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/AttendanceStatusEnum'
+          readOnly: true
+        recorded_by_id:
+          type: string
+          format: uuid
+          readOnly: true
+        device_id:
+          type: string
+          format: uuid
+          nullable: true
+          readOnly: true
+        note:
+          type: string
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+      required:
+      - activity_id
+      - checked_in_at
+      - device_id
+      - id
+      - method
+      - note
+      - recorded_by_id
+      - session_id
+      - status
+      - student_id
+      - version
     Refresh:
       type: object
       properties:
